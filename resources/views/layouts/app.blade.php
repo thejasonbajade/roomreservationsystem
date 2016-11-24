@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
-	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -83,6 +83,5 @@
 
     <!-- Scripts -->
     <script src="{{asset('/js/app.js')}}"></script>
-	<script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script> 
 </body>
 </html>
