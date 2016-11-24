@@ -8,38 +8,31 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
+<table class="table table-hover">
+						<tbody><tr>
+							<th>Status</th>
+							<th>Date</th>
+							<th>Room</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Date Filed </th>
+							<th></th>
+						</tr>
+											<tr>
+							<td class="text-warning">Pending</td>
+							<td>Nov 1, 2016</td>
+							<td>R101</td>
+							<td>01:00 PM</td>
+							<td>02:30 PM</td>
+							<td>Nov 23, 2016 05:23 AM</td>
+							<td><a href="#" class="reservationEdit" id="1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+				
+							</td>
+						</tr>
 
-                <form role="form" action="{{url('/reserveRoom')}}" method="GET">
-                    {{ csrf_field() }}
-                    <div class="col-md-3">
-
-                        <div class="form-group">
-                            <label for="room">Room</label>
-                            <input type="room" class="form-control" id="room" name="room" placeholder="MTh">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-
-                        <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date" class="form-control" id="date" name="date" placeholder="MTh">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="startTime">Start Time:</label>
-                            <input type="time" class="form-control" id="startTime" name="startTime" placeholder="7:30-8:00">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="EndTime">End Time:</label>
-                            <input type="time" class="form-control" id="EndTime" name="EndTime" placeholder="7:30-8:00">
-                        </div>
-                    </div>
-                    <input type="submit" name="submit" class="btn btn-primary" style="margin-top:25px;" value="Add"/>
-                </form>
-                </div>
+										</tbody></table>
+ 
+				</div>
             </div>
         </div>
     </div>

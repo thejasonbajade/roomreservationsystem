@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{asset('/css/app.css')}}" rel="stylesheet">
 	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <!-- Scripts -->
     <script>
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{asset('/js/app.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script> 
 </body>
 </html>
