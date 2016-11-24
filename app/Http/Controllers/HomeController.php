@@ -63,13 +63,10 @@ class HomeController extends Controller
 
     public function editReservation($reservationID) {
         $reservation = Reservation::find($reservationID);
-        $rooms = Room::all();
-        $data = array(
+        $data = [
             'reservation' => $reservation,
-            'rooms' => $rooms
-        );
-
-        return view('editroom', $data);
+        ];
+        return response()->json($data);
     }
 
     public function processEditReservation($reservationID) {
@@ -80,25 +77,31 @@ class HomeController extends Controller
         $reservation->end_time = Input::get('endTime');
         $reservation->timestamps = false;
         $reservation->save();
-        return redirect('/editReservation/'.$reservationID);
+        return redirect('/home');
     }
 
     public function checkReservationConflict(Request $request) {
-        echo "<script type='text/javascript'>alert('Im here');</script>";
-//        $checkReservation = Reservation::where(
-//            'room_id', '=', $request->input('roomID'))
-//            ->where('date', '=', $request->input('date'))
-//            ->whereBetween('start_time', array($request->input('startTime'), $request->input('endTime')))
-//            ->orWhereBetween('end_time', array($request->input('startTime'), $request->input('endTime')))
-//            ->count();
+        $startTime = $request->input('startTime');
+        $endTime = $request->input('endTime');
+        $checkReservation = Reservation::where(
+            'room_id', '=', $request->input('roomID'))
+            ->where('date', '=', $request->input('date'))
+            ->whereBetween('start_time', array($request->input('startTime')-1, $request->input('endTime')-1))
+            ->orWhereBetween('end_time', array($request->input('startTime')-1, $request->input('endTime')-1))
+            ->orwhere( function ($query) use ($startTime, $endTime) {
+                    $query->where('start_time', '<', $startTime)
+                        ->where('end_time','>', $startTime);
+                }
+            )
+            ->count();
 
-        $conflict = 'conflict';
-//        if(!checkReservation=0) {
-//            $conflict = true;
-//        }
-        $data = array(
+        $conflict = false;
+        if(!$checkReservation==0) {
+            $conflict = true;
+        }
+        $response = array(
             'conflict' => $conflict
         );
-        return Response::json($data);
+        return response()->json(['conflict'=> $conflict]);
     }
 }
