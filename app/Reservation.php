@@ -15,4 +15,9 @@ class Reservation extends Model
     public function teacher(){
         return $this->hasMany('App\User', 'user_id','id');
     }
+
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
+    }
 }

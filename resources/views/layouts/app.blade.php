@@ -12,8 +12,9 @@
 
     <!-- Styles -->
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Scripts -->
+    <script src="{{asset('/js/jquery.js')}}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -83,5 +84,6 @@
 
     <!-- Scripts -->
     <script src="{{asset('/js/app.js')}}"></script>
+
 </body>
 </html>

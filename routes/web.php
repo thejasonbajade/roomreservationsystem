@@ -18,5 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/collegeSecretary', 'CollegeSecretaryController@index');
+Route::get('/collegeSecretary', 'CollegeSecretaryController@dashboard');
+Route::get('/collegeSecretary/set_declined/{id}', 'CollegeSecretaryController@set_declined');
+Route::get('/collegeSecretary/set_approved/{id}', 'CollegeSecretaryController@set_approved');
 Route::get('/reserveRoom', 'HomeController@reserveRoom');
