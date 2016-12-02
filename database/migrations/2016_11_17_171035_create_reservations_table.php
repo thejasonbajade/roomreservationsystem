@@ -21,6 +21,7 @@ class CreateReservationsTable extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->integer('room_id');
+            $table->integer('semester_id');
             $table->timestamps();
         });
     }

@@ -12,7 +12,15 @@ class Reservation extends Model
         return $this->belongsTo('App\Room');
     }
 
+    public function semester() {
+        return $this->belongsTo('App\Semester');
+    }
+
     public function teacher(){
         return $this->belongsTo('App\User');
+    }
+
+    public function days() {
+        return $this->hasMany('App\Days');
     }
 }
