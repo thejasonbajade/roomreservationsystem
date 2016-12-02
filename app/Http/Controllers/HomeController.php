@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Day;
 use App\Reservation;
 use App\Room;
 use App\RoomReservation;
+use App\Semester;
 use App\User;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 //use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -41,7 +46,7 @@ class HomeController extends Controller
     }
 
     public function reserveRoom(Request $request) {
-
+        $semeterID = Semester::where('status', '=', 'Active')->get()[0]->id;
         for ($i=0; $i < count(Input::get('roomID')); $i++) {
             $reservation = new Reservation();
             $reservation->user_id = Auth()->id();
@@ -50,6 +55,7 @@ class HomeController extends Controller
             $reservation->date = Input::get('date')[$i];
             $reservation->start_time = Input::get('startTime')[$i];
             $reservation->end_time = Input::get('endTime')[$i];
+            $reservation->semester_id = $semeterID;
             $reservation->save();
         }
         return redirect('/home');
@@ -81,27 +87,59 @@ class HomeController extends Controller
     }
 
     public function checkReservationConflict(Request $request) {
+        $semeterID = Semester::where('status', '=', 'Active')->get()[0]->id;
         $startTime = $request->input('startTime');
         $endTime = $request->input('endTime');
-        $checkReservation = Reservation::where(
-            'room_id', '=', $request->input('roomID'))
-            ->where('date', '=', $request->input('date'))
-            ->whereBetween('start_time', array($request->input('startTime')-1, $request->input('endTime')-1))
-            ->orWhereBetween('end_time', array($request->input('startTime')-1, $request->input('endTime')-1))
-            ->orwhere( function ($query) use ($startTime, $endTime) {
-                    $query->where('start_time', '<', $startTime)
-                        ->where('end_time','>', $startTime);
-                }
-            )
-            ->count();
+        $date = $request->input('date');
+        $startTimeNew = (new DateTime("$date $startTime"))->modify('+1 minute')->format('H:i:s');
+        $endTimeNew = (new DateTime("$date $endTime"))->modify('-1 minute')->format('H:i:s');
+        $day = date('l', strtotime($date));
 
         $conflict = false;
-        if(!$checkReservation==0) {
+
+        $checkRegularClass = Reservation::where('room_id', '=', $request->input('roomID'))
+            ->where('date', '=', '1111-11-11')
+            ->where('semester_id', '=', $semeterID)
+            ->where(function ($query) use ($startTime, $endTime, $startTimeNew, $endTimeNew) {
+                $query->where(function ($query1) use ($startTimeNew, $endTimeNew){
+                    $query1->whereBetween('start_time', array($startTimeNew, $endTimeNew))
+                        ->orWhereBetween('end_time', array($startTimeNew, $endTimeNew));
+                })->orwhere( function ($query2) use ($startTime, $endTime) {
+                    $query2->where('start_time', '<=', $startTime)
+                        ->where('end_time','>=', $endTime);
+                }
+                );
+            })
+            ->whereExists(function($query) use ($day){
+                $query->select(DB::raw(1))
+                    ->from('days')
+                    ->where('day', '=', $day)
+                    ->whereRaw('days.reservation_id = reservations.id');
+            })
+            ->get();
+
+        if(!count($checkRegularClass)==0) {
+            $conflict = true;
+            return response()->json(['conflict'=> $conflict, 'reservation' => $checkRegularClass]);
+        }
+
+        $checkReservation = Reservation::where('room_id', '=', $request->input('roomID'))
+            ->where('date', '=', $date)
+            ->where(function ($query) use ($startTime, $endTime, $startTimeNew, $endTimeNew) {
+                $query->where(function ($query1) use ($startTimeNew, $endTimeNew){
+                    $query1->whereBetween('start_time', array($startTimeNew, $endTimeNew))
+                        ->orWhereBetween('end_time', array($startTimeNew, $endTimeNew));
+                })->orwhere( function ($query2) use ($startTime, $endTime) {
+                    $query2->where('start_time', '<=', $startTime)
+                        ->where('end_time','>=', $endTime);
+                }
+                );
+            })->get();
+
+
+        if(!count($checkReservation)==0) {
             $conflict = true;
         }
-        $response = array(
-            'conflict' => $conflict
-        );
-        return response()->json(['conflict'=> $conflict]);
+        return response()->json(['conflict'=> $conflict, 'reservation' => $checkReservation]);
     }
 }

@@ -9,10 +9,10 @@
 
 				<div class="panel-body">
 				<button class="btn btn-primary" id="addRoom">Add Room</button>
-					<form role="form" action="{{url('/reserveRoom')}}" method="GET">
+					<form role="form" action="{{url('/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
 						<div id="reservationDiv">
-							<div id="reservationField1" number="1">
+							<div id="reservationField1" number="1" class="col-md-12">
 								<div class="col-md-2">
 									<div class="form-group">
 										<label for="room">Room</label>
@@ -29,6 +29,7 @@
 										<label for="date">Date</label>
 										<input type="date" class="form-control" id="date1" name="date[]" placeholder="MTh">
 									</div>
+									<p id="dateWarning1"></p>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -138,6 +139,25 @@
 </div>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			var isConflict = false;
+
+			$('#reservationDiv').on('focusout', "[id^='date']", function () {
+				var number = $(this).parent('div').parent('div').parent('div').attr('number');
+				var dateApplied = new Date($(this).val());
+				var currentDate = new Date();
+				dateApplied.setDate(dateApplied.getDate()-3);
+				console.log(dateApplied);
+				if(!(dateApplied >= currentDate)) {
+					console.log('Reserved 3 days before');
+					$('#dateWarning'+number).html('Reservation must be filed at least 3 days before.');
+					var isConflict = true;
+				} else {
+					console.log('Late');
+					$('#dateWarning'+number).html('Date OK');
+					var isConflict = false;
+				}
+			});
+
 			$('.reservationEdit').click(function () {
 				var id = $(this).attr('id');
 				$.ajax({
@@ -155,12 +175,12 @@
 						$("#endTime").val(data.reservation.end_time);
 					},
 					error: function (xhr, textStatus, thrownError) {
-						console.log("Error ads",  thrownError);
+						console.log("ERROR:",  thrownError);
 					}
 				});
 			});
 
-			$("[id^='reservationField']").focusout(function () {
+			$('#reservationDiv').on("focusout", "[id^='reservationField']", function () {
 					var number = $(this).attr('number');
 					console.log('Number: ', number);
 					$.ajax({
@@ -174,62 +194,75 @@
 					},
 					dataType: 'json',
 					success: function (data) {
-						if(data.conflict == true) {
+						if(data.conflict == true
+								&& $('#startTime'+number).val() != ''
+								&& $('#endTime'+number).val() != ''
+								&& $('#date'+number).val() != '') {
 							$('#status'+number).html("Conflict")
 							$('#status'+number).removeClass().addClass('text-danger');
+							isConflict = true;
 						} else {
 							$('#status'+number).html("No Conflict")
 							$('#status'+number).removeClass().addClass('text-sucess');
+							isConflict = false;
 						}
 						console.log("Success");
 					},
 					error: function (xhr, textStatus, thrownError) {
-						console.log("Error ads",  thrownError);
+						console.log("ERROR:",  thrownError);
 					}
 				});
 		});
 
-		var reservationCount = 2;
-		$("#addRoom").click(function () {
-			$("#reservationDiv").append(
-					"<div id='reservationField" + reservationCount + "' number='" + reservationCount + "'>" +
-					"<div class='col-md-2'> " +
-					"<div class='form-group'> " +
-					"<select class='form-control' id='roomID"+ reservationCount + "' name='roomID[]'> " +
-					"@foreach($rooms as $room)" +
-					"<option value='{{$room->id}}'>{{$room->name}}</option>" +
-					"@endforeach" +
-					"</select>" +
-					"</div> " +
-					"</div> " +
-					"<div class='col-md-3'> " +
-					"<div class='form-group'> " +
-					"<input type='date' class='form-control' id='date"+ reservationCount +"' name='date[]' placeholder='MTh'> " +
-					"</div> " +
-					"</div> " +
-					"<div class='col-md-3'> " +
-					"<div class='form-group'> " +
-					"<input type='time' class='form-control' id='startTime" + reservationCount + "' name='startTime[]' placeholder='7:30-8:00'> " +
-					"</div> " +
-					"</div> " +
-					"<div class='col-md-3'> " +
-					"<div class='form-group'> " +
-					"<input type='time' class='form-control' id='endTime" + reservationCount + "' name='endTime[]' placeholder='7:30-8:00'> " +
-					"</div> " +
-					"</div>" +
-					"<div class='col-md-1'>" +
-					"<p id='status" + reservationCount + "' class='text-success'></p>" +
-					"<a href='#' class='remove text-danger'><b>x</b></a>" +
-					"</div>" +
-					"</div>"
-			)
-			reservationCount++;
-		});
-		$('#reservationDiv').on('click', ".remove", function (e) {
-			e.preventDefault();
-			$(this).parent('div').parent('div').remove();
-			reservationCount--
-		})
+			var reservationCount = 2;
+			$("#addRoom").click(function () {
+				$("#reservationDiv").append(
+						"<div id='reservationField" + reservationCount + "' number='" + reservationCount + "' class='col-md-12'>" +
+						"<div class='col-md-2'> " +
+						"<div class='form-group'> " +
+						"<select class='form-control' id='roomID"+ reservationCount + "' name='roomID[]'> " +
+						"@foreach($rooms as $room)" +
+						"<option value='{{$room->id}}'>{{$room->name}}</option>" +
+						"@endforeach" +
+						"</select>" +
+						"</div> " +
+						"</div> " +
+						"<div class='col-md-3'> " +
+						"<div class='form-group'> " +
+						"<input type='date' class='form-control' id='date"+ reservationCount +"' name='date[]' placeholder='MTh'> " +
+						"</div>" +
+						"<p id='dateWarning" + reservationCount + "'></p>" +
+						"</div> " +
+						"<div class='col-md-3'> " +
+						"<div class='form-group'> " +
+						"<input type='time' class='form-control' id='startTime" + reservationCount + "' name='startTime[]' placeholder='7:30-8:00'> " +
+						"</div> " +
+						"</div> " +
+						"<div class='col-md-3'> " +
+						"<div class='form-group'> " +
+						"<input type='time' class='form-control' id='endTime" + reservationCount + "' name='endTime[]' placeholder='7:30-8:00'> " +
+						"</div> " +
+						"</div>" +
+						"<div class='col-md-1'>" +
+						"<p id='status" + reservationCount + "' class='text-success'></p>" +
+						"<a href='#' class='remove text-danger'><b>x</b></a>" +
+						"</div>" +
+						"</div>"
+				)
+				reservationCount++;
+			});
+
+			$('#reservationDiv').on('click', ".remove", function (e) {
+				e.preventDefault();
+				$(this).parent('div').parent('div').remove();
+				reservationCount--
+			});
+
+			$('#submitReservation').submit(function (e) {
+				if(isConflict == true) {
+					e.preventDefault();
+				}
+			});
 		});
 	</script>
 @endsection
