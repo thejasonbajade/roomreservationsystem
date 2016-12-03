@@ -41,6 +41,15 @@ class CollegeSecretaryController extends Controller
         return redirect('/');       
     }
 
+    public function add_teacher(Request $request){
+        $result = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+        echo json_encode($result);
+    }
+
     public function set_declined(Request $request, $id){
         $result = Reservation::where('id', $id)
                        ->update(['status' => 'declined-College Secretary']);
