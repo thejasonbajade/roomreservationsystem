@@ -30,7 +30,7 @@ class DeanController extends Controller
 
     public function dashboard(){
 
-            $requests = Reservation::all();
+            $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
             $data['requests'] = $requests;            
             if ($requests != "") {
                 return view('dean_dashboard', $data);

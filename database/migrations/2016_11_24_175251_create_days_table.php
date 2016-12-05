@@ -17,6 +17,7 @@ class CreateDaysTable extends Migration
             $table->increments('id');
             $table->integer('reservation_id');
             $table->string('day');
+            $table->timestamps();
         });
     }
 

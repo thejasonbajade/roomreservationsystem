@@ -19,15 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/reserveRoom', 'HomeController@reserveRoom');
-
-Route::get('/cancelReservation/{reservationID}', 'HomeController@cancelReservation');
-
-Route::get('/editReservation/{reservationID}', 'HomeController@editReservation');
-
-Route::get('/processEditReservation/{reservationID}', 'HomeController@processEditReservation');
-
-Route::post('/checkReservationConflict', 'HomeController@checkReservationConflict');
+Route::get('/teacher', 'TeacherController@index');
+Route::get('teacher/reserveRoom', 'TeacherController@reserveRoom');
+Route::get('teacher/cancelReservation/{reservationID}', 'TeacherController@cancelReservation');
+Route::get('teacher/editReservation/{reservationID}', 'TeacherController@editReservation');
+Route::get('teacher/processEditReservation/{reservationID}', 'TeacherController@processEditReservation');
+Route::post('teacher/checkReservationConflict', 'TeacherController@checkReservationConflict');
 
 Route::get('/collegeSecretary', 'CollegeSecretaryController@dashboard');
 Route::get('/collegeSecretary/set_declined/{id}', 'CollegeSecretaryController@set_declined');

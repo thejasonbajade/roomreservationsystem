@@ -30,7 +30,7 @@ class CollegeSecretaryController extends Controller
 
     public function dashboard(){
 
-            $requests = Reservation::all();
+            $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
             $data['requests'] = $requests;            
             if ($requests != "") {
                 return view('secretary_dashboard', $data);
@@ -46,6 +46,7 @@ class CollegeSecretaryController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
+            'user_type' => 'Teacher'
         ]);
         echo json_encode($result);
     }
