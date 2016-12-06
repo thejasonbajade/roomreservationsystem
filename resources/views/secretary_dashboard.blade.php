@@ -27,7 +27,7 @@
 						</tr>
 	  					@foreach ($requests as $request)
 						<tr>
-							<td class="text-warning">{{$request->status}}</td>
+							<td id="{{ 'status'.$request->id }}" class="text-warning">{{$request->status}}</td>
 							<td>{{$request->date}}</td>
 							<td>{{$request->room_id}}</td>
 							<td>{{$request->start_time}}</td>
@@ -167,23 +167,27 @@
 	$(document).ready(function() {
 
 		$('[id^=decline_button]').click(function(){   
+			var id = this.value;
             $.ajax({
-                  url: "{{url('/')}}/collegeSecretary/set_declined/"+this.value, 
+                  url: "{{url('/')}}/collegeSecretary/set_declined/"+id, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
-		 	console.log(this.value);
+		 	// console.log(this.value);
 		});
 
 		$('[id^=approve_button]').click(function(){   
+			var id = this.value;
             $.ajax({
-                  url: "{{url('/')}}/collegeSecretary/set_approved/"+this.value, 
+                  url: "{{url('/')}}/collegeSecretary/set_approved/"+id, 
                   success: function(result){
                       console.log(result);
+					  $("#status"+id).text($.parseJSON(result));
                   }
               });
-		 	console.log(this.value);
+		 	// console.log(this.value);
 		});
 	});
 </script>

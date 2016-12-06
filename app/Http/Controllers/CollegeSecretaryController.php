@@ -54,12 +54,12 @@ class CollegeSecretaryController extends Controller
     public function set_declined(Request $request, $id){
         $result = Reservation::where('id', $id)
                        ->update(['status' => 'declined-College Secretary']);
-        echo json_encode($result);
+        echo json_encode('declined-College Secretary');
     }
 
     public function set_approved(Request $request, $id){
         $result = Reservation::where('id', $id)
                        ->update(['status' => 'approved-College Secretary']);
-        echo json_encode($result);
+        echo json_encode('approved-College Secretary');
     }
 }
