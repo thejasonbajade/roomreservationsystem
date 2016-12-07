@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Reservation;
+
 class ReservationsTableSeeder extends Seeder
 {
     /**
