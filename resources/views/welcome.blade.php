@@ -56,7 +56,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading text-head" style="color:#636b6f;background-color:white;"><whi>Login</b></div>
+                <div class="panel-heading text-head" style="color:#636b6f;background-color:white;"><b>Login</b></div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/') }}">
                         {{ csrf_field() }}
