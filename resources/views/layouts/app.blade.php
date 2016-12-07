@@ -32,7 +32,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #636b6f; clear:both;">
+        <nav class="navbar navbar-default navbar-static-top" style="background-color: #636b6f;">
             <div class="container">
                 <div class="navbar-header">
 
@@ -50,7 +50,7 @@
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f; height:50px;">
+                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
