@@ -30,9 +30,12 @@ class CollegeSecretaryController extends Controller
     }
 
     public function dashboard(){
-
+            $activeSem = Semester::where('status', '=', 'Active' )->get()->first();
+            $year = date('Y');
             $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
             $data['requests'] = $requests;            
+            $data['year'] = $year;    
+            $data['activeSem'] = $activeSem;    
             if ($requests != "") {
                 return view('secretary_dashboard', $data);
             }
@@ -53,16 +56,7 @@ class CollegeSecretaryController extends Controller
         echo json_encode($result);
     }
 
-    public function setYear(Request $request){
-        $year = $request->input('ayID');
-        session(['year' => $year]);
-        $sem = Semester::where('start_year', '=', $year )->get()->first()->id;
-
-        session(['sem' => $sem]);
-        return \Redirect::back();
-    }
-
-    public function setSemester(Request $request){
+    public function set_semester(Request $request){
         $id = $request->input('semID');
 
         if($request->input('prevSem')!=''){

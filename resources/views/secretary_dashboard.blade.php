@@ -13,7 +13,7 @@
 				<!-- End of Add button -->
 
                 <div class="panel-heading">Dashboard</div>
-
+                <div>{{$activeSem->start_year}} - {{$activeSem->end_year}} </div>
                 <div class="panel-body">
 					<table class="table table-hover">
 						<tbody><tr>
