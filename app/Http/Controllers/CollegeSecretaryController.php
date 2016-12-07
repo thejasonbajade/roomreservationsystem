@@ -78,4 +78,8 @@ class CollegeSecretaryController extends Controller
                        ->update(['status' => 'approved-College Secretary']);
         echo json_encode($result);
     }
+
+    public function addRegularSchedule() {
+        return view('add_regular_sched');
+    }
 }
