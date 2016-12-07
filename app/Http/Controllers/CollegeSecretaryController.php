@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Reservation;
+use App\Semester;
 class CollegeSecretaryController extends Controller
 {
     /**
@@ -36,7 +37,8 @@ class CollegeSecretaryController extends Controller
                 return view('secretary_dashboard', $data);
             }
             else{
-                return view('secretary_dashboard');     
+                $data['requests'] = ''; 
+                return view('secretary_dashboard', $data);     
             }
         return redirect('/');       
     }
@@ -49,6 +51,29 @@ class CollegeSecretaryController extends Controller
             'user_type' => 'Teacher'
         ]);
         echo json_encode($result);
+    }
+
+    public function setYear(Request $request){
+        $year = $request->input('ayID');
+        session(['year' => $year]);
+        $sem = Semester::where('start_year', '=', $year )->get()->first()->id;
+
+        session(['sem' => $sem]);
+        return \Redirect::back();
+    }
+
+    public function setSemester(Request $request){
+        $id = $request->input('semID');
+
+        if($request->input('prevSem')!=''){
+            $prevID = $request->input('prevSem');
+            Semester::where('id', $prevID)
+                       ->update(['status' => 'Not Active']);
+        }
+
+        Semester::where('id', $id)
+                       ->update(['status' => 'Active']);
+        return \Redirect::back();
     }
 
     public function set_declined(Request $request, $id){
