@@ -1,22 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="wrapper">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-			<li><a href="#">
-				<img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="menu-title">{{ Auth::user()->name }}</span></a></li>
-			<li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
-			<li><a href="{{ url('/logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">Logout</a></li>
-		</ul>
-	</div>
-<div class="container">
+
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-8 col-md-offset-1">
 				<div class="panel panel-default">
-					<div class="panel-heading">Reservations</div>
+					<div class="panel-heading"><b>Reservations</b></div>
 						<table class="table table-hover">
 							<tr>
 								<th>Status</th>
@@ -43,12 +33,12 @@
 						</table>
 				</div>
 			</div>
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-8 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Reserve Rooms</div>
+				<div class="panel-heading"><b>Reserve Rooms</b></div>
 
 				<div class="panel-body">
-				<button class="btn btn-primary" id="addRoom">Add Room</button>
+				<button class="btn btn-xs btn-primary" id="addRoom" style="margin-left: 4%;">Add Room</button>
 					<form role="form" action="{{url('/teacher/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
 						<div id="reservationDiv">
@@ -63,7 +53,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 
 									<div class="form-group">
 										<label for="date">Date</label>
@@ -117,16 +107,16 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						<h4 class="modal-title" id="myModalLabel">Edit Request</h4>
 					</div>
 					<div class="modal-body">
-						Status:<p id="status"></p>
-						Date:<p id="filedDate"></p>
+						<label>Status:</label><p id="status"></p>
+						<label>Date:</label><p id="filedDate"></p>
 						<form role="form" method="GET" id="editURL">
 							{{ csrf_field() }}
 							<div>
 								<div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											<label for="room">Room</label>
 											<select class="form-control" id="roomID" name="roomID">
@@ -157,18 +147,16 @@
 									</div>
 								</div>
 							</div>
-							<input type="submit" name="submit" class="btn btn-primary" style="margin-top:25px;" value="Edit"/>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<button type="submit" name="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 	<script type="text/javascript">
 		$(document).ready(function($) {

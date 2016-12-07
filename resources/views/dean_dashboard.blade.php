@@ -1,23 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="wrapper">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-			<li><a href="#">
-				<img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="menu-title">{{ Auth::user()->name }}</span></a></li>
-			<li><a href="#">Dashboard</a></li>
-			<li><a href="#">View Requests</a></li>
-			<li><a href="{{ url('/logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">Logout</a></li>
-		</ul>
-	</div>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading"><b>Pending Requests</b></div>
 
                 <div class="panel-body">
 					<table class="table table-hover">
@@ -58,12 +46,12 @@
 					  		<div class="modal fade" id="{{ 'approve'.$request->id }}" role="dialog">
 					  			<div class="modal-dialog" style="width:300px;height:50px;">
 					  				<div class="modal-content" >
-					  					<div class="modal-header" style="background-color:#e74c3c;padding:3px;margin-bottom:10px;">
+					  					<div class="modal-header" style="background-color:#636b6f;padding:3px;margin-bottom:10px;">
 					  						<p style="color:white;font-size:18px;text-align:center;margin-top:3px;">Approve</p>
 					  					</div>
 					  					<div class="modal-body" style="padding:10px;display:inline;">
-				  							<button type="button"  value="{{ $request->id }}" id="{{'approve_button'.$request->id }}" data-dismiss="modal" class="btn btn-danger btn-ok" style="display:inline;margin:0px 10px 10px 30px;width:100px;">Yes</button>
-					  						<button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="tooltip" title="Cancel" data-placement="bottom" style="display:inline;margin:0px 0px 10px 10px;width:100px;" >No</button>
+				  							<button type="button"  value="{{ $request->id }}" id="{{'approve_button'.$request->id }}" data-dismiss="modal" class="btn btn-success btn-ok" style="display:inline;margin:0px 10px 10px 30px;width:100px;">Yes</button>
+					  						<button type="button" class="btn btn-warning" data-dismiss="modal" data-toggle="tooltip" title="Cancel" data-placement="bottom" style="display:inline;margin:0px 0px 10px 10px;width:100px;" >No</button>
 					  					</div>
 					  				</div>
 					  			</div>
@@ -73,12 +61,12 @@
 					  		<div class="modal modal-transparent fade" id="{{ 'decline'.$request->id }}" role="dialog">
 					  			<div class="modal-dialog" style="width:300px;height:60px;">
 					  				<div class="modal-content">
-					  					<div class="modal-header" style="background-color:#e74c3c;padding:3px;margin-bottom:10px;">
+					  					<div class="modal-header" style="background-color:#636b6f;padding:3px;margin-bottom:10px;">
 					  						<p style="color:white;font-size:18px;text-align:center;margin-top:3px;">Decline</p>
 					  					</div>
 					  					<div class="modal-body" style="padding:10px;display:inline;">
 				  							<button type="button"  value="{{ $request->id }}" id="{{'decline_button'.$request->id }}" data-dismiss="modal" class="btn btn-danger btn-ok" style="display:inline;margin:0px 10px 10px 30px;width:100px;">Yes</button>
-					  						<button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="tooltip" title="Cancel" data-placement="bottom" style="display:inline;margin:0px 0px 10px 10px;width:100px;" >No</button>
+					  						<button type="button" class="btn btn-warning" data-dismiss="modal" data-toggle="tooltip" title="Cancel" data-placement="bottom" style="display:inline;margin:0px 0px 10px 10px;width:100px;" >No</button>
 					  					</div>
 					  				</div>
 					  			</div>
@@ -90,7 +78,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <script>
 	$(document).ready(function() {
