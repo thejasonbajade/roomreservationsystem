@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'user_type'
+        'name', 'email', 'password', 'user_type', 'division_id'
     ];
 
     /**
@@ -29,5 +29,9 @@ class User extends Authenticatable
 
     public function reservations() {
         return $this->hasMany('App\Reservation');
+    }
+
+    public function division() {
+        return $this->belongsTo('App\Division');
     }
 }
