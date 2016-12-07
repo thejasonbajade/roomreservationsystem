@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'GeneralViewController@index');
+Route::get('/schedule/{roomID}', 'GeneralViewController@getTodaySchedule');
 
 Auth::routes();
 

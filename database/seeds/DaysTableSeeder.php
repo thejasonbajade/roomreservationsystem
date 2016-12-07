@@ -3,7 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\Day;
 
-class DaysTableSeeder extends Seeder
+
+class daysTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

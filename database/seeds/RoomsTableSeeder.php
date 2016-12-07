@@ -12,9 +12,15 @@ class RoomsTableSeeder extends Seeder
     public function run()
     {
         Room::create(array(
+<<<<<<< be40abcd9567b243b6d1890e0711d7fcbc81bcfa
             'name' => 'B1',
             'level' => 'Basement'
         ));
+=======
+	        'name' => 'B1',
+            'level' => 'Basement'
+	    ));
+>>>>>>> 8693df2a386a8cbdf1e6aeeea12e1e16019f7a57
         Room::create(array(
             'name' => 'B2',
             'level' => 'Basement'
