@@ -43,13 +43,13 @@ class DeanController extends Controller
 
     public function set_declined(Request $request, $id){
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'Dean Declined']);
+                       ->update(['status' => 'declined-Dean']);
         echo json_encode($result);
     }
 
     public function set_approved(Request $request, $id){
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'Dean Approved']);
+                       ->update(['status' => 'approved-Dean']);
         echo json_encode($result);
     }
 }
