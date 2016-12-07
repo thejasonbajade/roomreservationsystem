@@ -78,15 +78,19 @@ class CollegeSecretaryController extends Controller
     }
 
     public function set_semester(Request $request){
-        $id = $request->input('semID');
 
-        if($request->input('prevSem')!=''){
-            $prevID = $request->input('prevSem');
+        if($request->input('activeSem')!=''){
+            $prevID = $request->input('activeSem');
             Semester::where('id', $prevID)
                        ->update(['status' => 'Not Active']);
         }
 
-        Semester::where('id', $id)
+        $sem = $request->input('semester');
+        $ay = explode(',',$request->input('year'));
+
+        Semester::where('start_year', $ay[0])
+                        ->where('end_year', $ay[1])
+                        ->where('semester', $sem)
                        ->update(['status' => 'Active']);
         return \Redirect::back();
     }

@@ -26,12 +26,45 @@
 				<!-- End of Add button -->
 
                 <div class="panel-heading">Dashboard</div>
-                <div>
-	                <h1>{{$activeSem->start_year}} - {{$activeSem->end_year}}</h1> 
-	                <input value='lol' disabled/>
+                <div class="col-xs-3">
+                <input type="hidden" value="{{$activeSem->id}}" id="activeSem"/>
+				<select id="ayID" name="ayID" class="form-control" disabled >
+			
+					<option value="{{$activeSem->start_year}},{{$activeSem->end_year}}" {{$activeSem->start_year}} - {{$activeSem->end_year}}>				
+					{{$activeSem->start_year}} - {{$activeSem->end_year}}</option>
+				
+					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
+					{{$activeSem->start_year+1}} - {{$activeSem->end_year+1}}</option>
+
+					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
+					{{$activeSem->start_year+2}} - {{$activeSem->end_year+2}}</option>				
+
+					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
+					{{$activeSem->start_year+3}} - {{$activeSem->end_year+3}}</option>
+
+					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
+					{{$activeSem->start_year+4}} - {{$activeSem->end_year+4}}</option>
+				</select>
+
+										<select id="semID" name="semID" class="form-control" disabled>
+	
+											<option value="First Semester"@if($activeSem->semester=='First Semester') {{'selected'}} @endif>First Semester</option>
+										
+											<option value="Second Semester"@if($activeSem->semester=='Second Semester') {{'selected'}} @endif>Second Semester</option>
+										
+											<option value="Summer">Summer</option>
+										
+											<option value="First Trimester">First Trimester</option>
+										
+											<option value="Second Trimester">Second Trimester</option>
+										
+											<option value="Third Trimester">Third Trimester</option>
+										
+											<option value="Midyear">Midyear</option>
+									</select>
 				<!-- Add button -->
-				<div class="col-md-12" id="addBtn">
-					<button type="button" class="btn btn-default btn-lg" id="edit-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp">Add Teacher</button>
+				<div class="col-md-12">
+					<button id="editButton" type="button" class="btn btn-default btn-md" >Edit</button>
 				</div>
 				<!-- End of Add button -->
 	            </div>
@@ -202,8 +235,6 @@
 
 		<!-- END OF MODAL -->
 
-
-
 		<!-- MODAL -->
 		@if(session('teacher'))
 		<div id="teacherProfile" class="modal fade" role="document" >
@@ -255,6 +286,37 @@
               });
 		 	console.log(this.value);
 		});
+
+
+			$("#editButton").on('click', editSem)
+
+			function editSem(){
+				$("#ayID").prop('disabled', false);
+				$("#semID").prop('disabled', false);
+				$("#editButton").text('Save');
+			    $("#editButton").off('click').on('click', saveSem)
+				console.log('kek');
+			}
+
+			function saveSem() {
+				$("#ayID").prop('disabled', true);
+				$("#semID").prop('disabled', true);
+				$("#editButton").text('Edit');
+				var year = $('#ayID').find(":selected").val();
+				var semester = $('#semID').find(":selected").val();
+				var activeSem = $('#activeSem').val();
+	            $.ajax({
+	                  url: "{{url('/')}}/collegeSecretary/set_semester", 
+	                  data: {'semester':semester, 'year':year, 'activeSem':activeSem, "_token": "{{ csrf_token() }}" },
+	                  type: "POST",
+	                  dataType:'json',
+	                  success: function(result){
+	                      console.log(result);
+	                  }
+	              });
+			    $("#editButton").off('click').on('click', editSem);
+			}
+
 
 		$('#divisionID').focusout(function(){
 			chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
