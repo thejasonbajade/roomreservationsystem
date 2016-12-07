@@ -22,12 +22,21 @@
 				<!-- Add button -->
 				<div class="col-md-12" id="addBtn">
 					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
-
 				</div>
 				<!-- End of Add button -->
 
                 <div class="panel-heading">Dashboard</div>
-                <div>{{$activeSem->start_year}} - {{$activeSem->end_year}} </div>
+                <div>
+	                <h1>{{$activeSem->start_year}} - {{$activeSem->end_year}}</h1> 
+	                <input value='lol' disabled/>
+				<!-- Add button -->
+				<div class="col-md-12" id="addBtn">
+					<button type="button" class="btn btn-default btn-lg" id="edit-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp">Add Teacher</button>
+				</div>
+				<!-- End of Add button -->
+	            </div>
+                </div>
+
                 <div class="panel-body">
 					<table class="table table-hover">
 						<tbody><tr>
@@ -102,107 +111,160 @@
 </div>
 </div>
 		<!-- MODAL -->
-		<div id="addEmp" class="modal fade" role="dialog">
+		<div id="addEmp" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content" style="text-align:left;">
 					<div class="modal-header" style="background-color:#e74c3c;color:white;">
 						<button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-						<p class="modal-title"><strong><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp; Add Employee</strong></p>
+						<p class="modal-title"><strong><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp; Add Teacher Account</strong></p>
 					</div>
 					<div class="modal-body" >
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{url('/')}}/collegeSecretary/add_teacher">
-                        {{ csrf_field() }}
+								<form class="form-horizontal" role="form" method="POST" action="{{url('/')}}/collegeSecretary/add_teacher" id="addTeacher">
+									{{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+									<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+										<label for="name" class="col-md-4 control-label">Name</label>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+										<div class="col-md-6">
+											<input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+											@if ($errors->has('name'))
+												<span class="help-block">
+													<strong>{{ $errors->first('name') }}</strong>
+												</span>
+											@endif
+										</div>
+									</div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+									<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+										<label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+										<div class="col-md-6">
+											<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+											@if ($errors->has('email'))
+												<span class="help-block">
+													<strong>{{ $errors->first('email') }}</strong>
+												</span>
+											@endif
+										</div>
+									</div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+									<div class="form-group">
+										<label for="email" class="col-md-4 control-label">Division</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+										<div class="col-md-6">
+											<select class="form-control" name="divisionID" id="divisionID">
+												@foreach($divisions as $division)
+													<option value="{{$division->id}}">{{$division->name}}</option>
+												@endforeach
+											</select>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+										</div>
+									</div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+									<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}" style="display: none">
+										<label for="password" class="col-md-4 control-label">Password</label>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
+										<div class="col-md-6">
+											<input id="password" type="password" class="form-control" name="password" required>
+
+											@if ($errors->has('password'))
+												<span class="help-block">
+													<strong>{{ $errors->first('password') }}</strong>
+												</span>
+											@endif
+										</div>
+									</div>
+
+									<div class="form-group" style="display: none">
+										<label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+
+										<div class="col-md-6">
+											<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-default" id="addEmp" style="background-color:#e74c3c;color:white;width:100px;text-align:center;"> Add </button>
+							<button type="submit" class="btn btn-default" id="addEmp" style="background-color:#e74c3c;color:white;width:100px;text-align:center;" form="addTeacher"> Add </button>
 						</div>
-					</form>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<!-- END OF MODAL -->
+
+
+
+		<!-- MODAL -->
+		@if(session('teacher'))
+		<div id="teacherProfile" class="modal fade" role="document" >
+			<div class="modal-dialog">
+				<div class="modal-content" style="text-align:left;">
+					<div class="modal-header" style="background-color:#e74c3c;color:white;">
+						<button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+						<p class="modal-title"><strong><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp; Teacher Profile </strong></p>
+					</div>
+					<div class="modal-body" >
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<p>Name: {{session('teacher')->name}}</p>
+									<p>Division: {{session('teacher')->division->name}}</p>
+									<p>Email: {{session('teacher')->email}}</p>
+									<p>Temporary Password: {{session('teacher')->password}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<!-- END OF MODAL -->
-
+		@endif
+				<!-- END OF MODAL -->
 <script>
 	$(document).ready(function() {
+		if($('#teacherProfile')) {
+			$('#teacherProfile').modal('show');
+		}
 
 		$('[id^=decline_button]').click(function(){   
-			var id = this.value;
             $.ajax({
-                  url: "{{url('/')}}/collegeSecretary/set_declined/"+id, 
+                  url: "{{url('/')}}/collegeSecretary/set_declined/"+this.value, 
                   success: function(result){
                       console.log(result);
-                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
-		 	// console.log(this.value);
+		 	console.log(this.value);
 		});
 
 		$('[id^=approve_button]').click(function(){   
-			var id = this.value;
             $.ajax({
-                  url: "{{url('/')}}/collegeSecretary/set_approved/"+id, 
+                  url: "{{url('/')}}/collegeSecretary/set_approved/"+this.value, 
                   success: function(result){
                       console.log(result);
-					  $("#status"+id).text($.parseJSON(result));
                   }
               });
-		 	// console.log(this.value);
+		 	console.log(this.value);
+		});
+
+		$('#divisionID').focusout(function(){
+			chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			var result = '';
+			for (var i = 8; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+			$('#password').val(result);
+			$('#password-confirm').val(result);
+			console.log(result);
 		});
 	});
 </script>
 @endsection
+
