@@ -23,7 +23,7 @@
 				<div class="col-md-12" id="addBtn">
 					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
 				</div>
-				<a href="{{url('/add_regular_schedule')}}">
+				<a href="{{url('/collegeSecretary/add_regular_schedule')}}">Add Regular Sched</a>
 				<!-- End of Add button -->
 
                 <div class="panel-heading">Dashboard</div>

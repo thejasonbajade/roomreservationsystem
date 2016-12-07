@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Input;
 
 class TeacherController extends Controller
 {
-    public function index()
-    {
+    public function index() {
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $user_id = Auth()->id();
         $reservations = User::find($user_id)->reservations;
         $rooms = Room::all();
@@ -27,6 +30,10 @@ class TeacherController extends Controller
     }
 
     public function reserveRoom(Request $request) {
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $semeterID = Semester::where('status', '=', 'Active')->get()[0]->id;
         for ($i=0; $i < count(Input::get('roomID')); $i++) {
 
@@ -44,13 +51,22 @@ class TeacherController extends Controller
     }
 
     public function cancelReservation($reservationID) {
+
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $reservation = Reservation::find($reservationID);
         $reservation->delete();
         return response()->json(['status' => 'Success']);
-//        return redirect('/home');
     }
 
     public function editReservation($reservationID) {
+
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $reservation = Reservation::find($reservationID);
         $data = [
             'reservation' => $reservation,
@@ -59,6 +75,11 @@ class TeacherController extends Controller
     }
 
     public function processEditReservation($reservationID) {
+
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $reservation = Reservation::find($reservationID);
         $reservation->room_id = Input::get('roomID');
         $reservation->date = Input::get('date');
@@ -70,6 +91,11 @@ class TeacherController extends Controller
     }
 
     public function checkReservationConflict(Request $request) {
+
+        if(Auth()->user()->user_type != 'Teacher') {
+            return redirect('/home');
+        }
+
         $semeterID = Semester::where('status', '=', 'Active')->get()[0]->id;
         $startTime = $request->input('startTime');
         $endTime = $request->input('endTime');
