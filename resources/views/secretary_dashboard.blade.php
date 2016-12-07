@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+			<li><a href="#">
+				<img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="menu-title">{{ Auth::user()->name }}</span></a></li>
+			<li><a href="#">Dashboard</a></li>
+			<li><a href="#">View Requests</a></li>
+			<li><a href="#">Add Teacher</a></li>
+			<li><a href="{{ url('/logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">Logout</a></li>
+		</ul>
+	</div>
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -8,7 +21,8 @@
 
 				<!-- Add button -->
 				<div class="col-md-12" id="addBtn">
-					<button type"button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
+					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
+
 				</div>
 				<!-- End of Add button -->
 
@@ -86,7 +100,7 @@
         </div>
     </div>
 </div>
-
+</div>
 		<!-- MODAL -->
 		<div id="addEmp" class="modal fade" role="dialog">
 			<div class="modal-dialog">
