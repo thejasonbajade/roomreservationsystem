@@ -13,12 +13,12 @@ class ReservationsTableSeeder extends Seeder
     {
         Reservation::create(array(
 	        'user_id' => '123456789',
-            'status' => '
+            'status' => 'Dean Approved',
             'date' => '1111-11-11',
             'start_time' => '07:00:00',
             'end_time' => '08:30:00',
             'room_id' => '1',
-            'semester_id' => '
+            'semester_id' => '1'
         ));
         Reservation::create(array(
 	        'user_id' => '123456789',
