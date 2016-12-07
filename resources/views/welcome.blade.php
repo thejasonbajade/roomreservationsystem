@@ -5,90 +5,106 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Room Reservation System</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="bootstrap/css/style.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/styleUI.css">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #636b6f">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
+                        <a href="{{ url('/viewRooms') }}">View Rooms</a>
                     @endif
                 </div>
             @endif
+        </nav>
+        @if (Auth::check())
+        <div class="flex-center position-ref full-height container-fluid">
 
-            <div class="content">
+            <div class="col-md-12 col-xs-12 content">
                 <div class="title m-b-md">
-                    Laravel
+                    UPV-CAS Room Reservation System
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div class="blurb">
+                    A room reservation system for CAS faculty.
                 </div>
             </div>
+        </div>
+        @else
+        <div class="flex-center position-ref full-height container-fluid">
+
+            <div class="col-md-8 col-xs-12 content">
+                <div class="title m-b-md">
+                    UPV-CAS Room Reservation System
+                </div>
+
+                <div class="blurb">
+                    A room reservation system for CAS faculty.
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading title-login">Login</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form" method="POST" action="http://localhost/roomreservationsystem/public/">
+                            <input type="hidden" name="_token" value="XPqk7IZ4JqiT6n3NQWSp7diEOwxyldHj7083cqyU">
+                            <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email" class="form-control" name="email" value="" required="" autofocus="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password" class="col-md-4 control-label">Password</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control" name="password" required="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember"> <b>Remember Me</b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        <b>Login</b><br />
+                                    </button>
+
+                                    <a class="btn btn-link" href="http://localhost/roomreservationsystem/public/password/reset">
+                                    <b>Forgot Your Password?</b>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+        <div class="bg-success links" id="footer">
+            <center>
+                <a href="#">A project by Tripod Inc.</a> | <a href="#">Contact Us</a>&copy; 2016
+            </center>
         </div>
     </body>
 </html>
