@@ -30,7 +30,7 @@
         @if (Auth::check())
         <div class="flex-center position-ref full-height container-fluid">
 
-            <div class="col-md-12 col-xs-12 content">
+            <div class="col-md-12 col-md-offset-1 content">
                 <div class="title m-b-md">
                     UPV-CAS Room Reservation System
                 </div>
@@ -43,7 +43,7 @@
         @else
         <div class="flex-center position-ref full-height container-fluid">
 
-            <div class="col-md-8 col-xs-12 content">
+            <div class="col-md-7 col-md-offset-1 content">
                 <div class="title m-b-md">
                     UPV-CAS Room Reservation System
                 </div>
@@ -52,53 +52,70 @@
                     A room reservation system for CAS faculty.
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading title-login">Login</div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="http://localhost/roomreservationsystem/public/">
-                            <input type="hidden" name="_token" value="XPqk7IZ4JqiT6n3NQWSp7diEOwxyldHj7083cqyU">
-                            <div class="form-group">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+            <div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading text-head" style="color:#636b6f;background-color:white;"><b>Login</b></div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/') }}">
+                        {{ csrf_field() }}
 
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="" required="" autofocus="">
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label text-head">E-Mail Address</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label text-head">Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="text-head" name="remember"> <b>Remember Me</b>
+                                    </label>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="password" class="col-md-4 control-label">Password</label>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <b>Login</b>
+                                </button>
 
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required="">
-                                </div>
+                                <a class="btn btn-link text-head" href="{{ url('/password/reset') }}">
+                                    <b>Forgot Password?</b>
+                                </a>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="remember"> <b>Remember Me</b>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <b>Login</b><br />
-                                    </button>
-
-                                    <a class="btn btn-link" href="http://localhost/roomreservationsystem/public/password/reset">
-                                    <b>Forgot Your Password?</b>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
         </div>
         @endif
         <div class="bg-success links" id="footer">
