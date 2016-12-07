@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>CAS - Room Reservation</title>
 
@@ -14,8 +14,11 @@
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/styleUI.css">
+    <link href="{{asset('/css/style.css')}}" rel="stylesheet">
+
     <!-- Scripts -->
     <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.tablesorter.js')}}"></script>
     <script>
         $.ajaxSetup({
             headers: {

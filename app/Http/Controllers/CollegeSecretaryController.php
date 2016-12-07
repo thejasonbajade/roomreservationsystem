@@ -9,6 +9,7 @@ use App\Reservation;
 use App\Semester;
 use App\Division;
 
+
 class CollegeSecretaryController extends Controller
 {
     /**
@@ -93,6 +94,7 @@ class CollegeSecretaryController extends Controller
                         ->where('semester', $sem)
                        ->update(['status' => 'Active']);
         return \Redirect::back();
+
     }
 
     public function set_declined(Request $request, $id){

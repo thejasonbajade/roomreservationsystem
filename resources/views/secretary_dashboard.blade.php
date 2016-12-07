@@ -22,6 +22,7 @@
 				<!-- Add button -->
 				<div class="col-md-12" id="addBtn">
 					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
+
 				</div>
 				<!-- End of Add button -->
 
@@ -291,7 +292,6 @@
 		 	console.log(this.value);
 		});
 
-
 			$("#editButton").on('click', editSem)
 
 			function editSem(){
@@ -320,7 +320,6 @@
 	              });
 			    $("#editButton").off('click').on('click', editSem);
 			}
-
 
 		$('#divisionID').focusout(function(){
 			chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

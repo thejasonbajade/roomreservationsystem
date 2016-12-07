@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Department of Chemistry'
         ]);
 
+
     }
 }
