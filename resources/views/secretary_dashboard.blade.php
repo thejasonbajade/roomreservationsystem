@@ -267,21 +267,25 @@
 			$('#teacherProfile').modal('show');
 		}
 
-		$('[id^=decline_button]').click(function(){   
+		$('[id^=decline_button]').click(function(){
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/collegeSecretary/set_declined/"+this.value, 
                   success: function(result){
                       console.log(result);
+					  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
 		});
 
-		$('[id^=approve_button]').click(function(){   
+		$('[id^=approve_button]').click(function(){
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/collegeSecretary/set_approved/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
