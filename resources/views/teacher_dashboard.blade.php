@@ -1,15 +1,55 @@
 @extends('layouts.app')
 
 @section('content')
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+			<li><a href="#">
+				<img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="menu-title">{{ Auth::user()->name }}</span></a></li>
+			<li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
+			<li><a href="{{ url('/logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">Logout</a></li>
+		</ul>
+	</div>
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">Reservations</div>
+						<table class="table table-hover">
+							<tr>
+								<th>Status</th>
+								<th>Date</th>
+								<th>Room</th>
+								<th>Start Time</th>
+								<th>End Time</th>
+								<th>Date Filed </th>
+								<th></th>
+							</tr>
+						@foreach($reservations as $reservation)
+							<tr>
+								<td class="text-warning">{{ $reservation->status }}</td>
+								<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
+								<td>{{ $reservation->room->name }}</td>
+								<td>{{ date("h:i A", strtotime($reservation->start_time)) }}</td>
+								<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
+								<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
+								<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true" style="color: green; cursor: pointer;"></i></a>
+									<a href="{{url('/teacher/cancelReservation/'.$reservation->id)}}" class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
+								</td>
+							</tr>
+						@endforeach
+						</table>
+				</div>
+			</div>
+		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Dashboard</div>
+				<div class="panel-heading">Reserve Rooms</div>
 
 				<div class="panel-body">
 				<button class="btn btn-primary" id="addRoom">Add Room</button>
-					<form role="form" action="{{url('/reserveRoom')}}" method="GET" id="submitReservation">
+					<form role="form" action="{{url('/teacher/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
 						<div id="reservationDiv">
 							<div id="reservationField1" number="1" class="col-md-12">
@@ -52,30 +92,22 @@
 							<input type="submit" name="submit" class="btn btn-block btn-primary" style="margin-top:25px;" value="Add"/>
 						</div>
 					</form>
-					<table class="table table-hover">
-						<tr>
-							<th>Status</th>
-							<th>Date</th>
-							<th>Room</th>
-							<th>Start Time</th>
-							<th>End Time</th>
-							<th>Date Filed </th>
-							<th></th>
-						</tr>
-					@foreach($reservations as $reservation)
-						<tr>
-							<td class="text-warning">{{ $reservation->status }}</td>
-							<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
-							<td>{{ $reservation->room->name }}</td>
-							<td>{{ date("h:i A", strtotime($reservation->start_time)) }}</td>
-							<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
-							<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
-							<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-								<a href="{{url('/cancelReservation/'.$reservation->id)}}" class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
-							</td>
-						</tr>
-					@endforeach
-					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="cancelReservationModal" role="dialog">
+			<div class="modal-dialog" style="width:300px;height:50px;">
+				<div class="modal-content" >
+					<div class="modal-header" style="background-color:#e74c3c;padding:3px;margin-bottom:10px;">
+						<p style="color:white;font-size:18px;text-align:center;margin-top:3px;">Delete</p>
+					</div>
+					<div class="modal-body" style="padding:10px;display:inline;">
+						{{----}}
+						<button type="button" id="cancelReservationURL" number="" data-dismiss="modal" class="btn btn-danger btn-ok" style="display:inline;margin:0px 10px 10px 30px;width:100px;">Yes</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="tooltip" title="Cancel" data-placement="bottom" style="display:inline;margin:0px 0px 10px 10px;width:100px;" >No</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -137,8 +169,10 @@
 		</div>
 	</div>
 </div>
+</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(function($) {
+
 			var isConflict = false;
 
 			$('#reservationDiv').on('focusout', "[id^='date']", function () {
@@ -149,11 +183,11 @@
 				console.log(dateApplied);
 				if(!(dateApplied >= currentDate)) {
 					console.log('Reserved 3 days before');
-					$('#dateWarning'+number).html('Reservation must be filed at least 3 days before.');
+					$('#dateWarning'+number).html('Must be filed at least 3 days before.');
 					var isConflict = true;
 				} else {
 					console.log('Late');
-					$('#dateWarning'+number).html('Date OK');
+					$('#dateWarning'+number).html('');
 					var isConflict = false;
 				}
 			});
@@ -161,12 +195,12 @@
 			$('.reservationEdit').click(function () {
 				var id = $(this).attr('id');
 				$.ajax({
-					url: "{{url('/editReservation')}}"+"/"+id,
+					url: "{{url('/teacher/editReservation')}}"+"/"+id,
 					type: 'GET',
 					dataType: 'json',
 					success: function (data) {
 						console.log(data)
-						$("#editURL").attr('action', "{{url('/processditReservation')}}"+"/"+id);
+						$("#editURL").attr('action', "{{url('/teacher/processditReservation')}}"+"/"+id);
 						$("#status").html(data.reservation.status);
 						$("#filedDate").html(new Date(data.reservation.created_at));
 						$("#roomID").val(data.reservation.room_id);
@@ -181,38 +215,37 @@
 			});
 
 			$('#reservationDiv').on("focusout", "[id^='reservationField']", function () {
-					var number = $(this).attr('number');
-					console.log('Number: ', number);
-					$.ajax({
-					url: '{{url('/checkReservationConflict')}}',
-					type: 'POST',
-					data: {
-						'roomID': $('#roomID'+number).val(),
-						'date': $('#date'+number).val(),
-						'startTime': $('#startTime'+number).val(),
-						'endTime': $('#endTime'+number).val()
-					},
-					dataType: 'json',
-					success: function (data) {
-						if(data.conflict == true
-								&& $('#startTime'+number).val() != ''
-								&& $('#endTime'+number).val() != ''
-								&& $('#date'+number).val() != '') {
-							$('#status'+number).html("Conflict")
-							$('#status'+number).removeClass().addClass('text-danger');
-							isConflict = true;
-						} else {
-							$('#status'+number).html("No Conflict")
-							$('#status'+number).removeClass().addClass('text-sucess');
-							isConflict = false;
-						}
-						console.log("Success");
-					},
-					error: function (xhr, textStatus, thrownError) {
-						console.log("ERROR:",  thrownError);
+				var number = $(this).attr('number');
+				console.log('Number: ', number);
+				$.ajax({
+				url: '{{url('/teacher/checkReservationConflict')}}',
+				type: 'POST',
+				data: {
+					'roomID': $('#roomID'+number).val(),
+					'date': $('#date'+number).val(),
+					'startTime': $('#startTime'+number).val(),
+					'endTime': $('#endTime'+number).val()
+				},
+				dataType: 'json',
+				success: function (data) {
+					if(data.conflict == true
+							&& $('#startTime'+number).val() != ''
+							&& $('#endTime'+number).val() != ''
+							&& $('#date'+number).val() != '') {
+						$('#status'+number).html("Conflict")
+						$('#status'+number).removeClass().addClass('text-danger');
+						isConflict = true;
+					} else {
+						$('#status'+number).html("No Conflict")
+						$('#status'+number).removeClass().addClass('text-sucess');
+						isConflict = false;
 					}
-				});
-		});
+					console.log("Success");
+				},
+				error: function (xhr, textStatus, thrownError) {
+					console.log("ERROR:",  thrownError);
+				}
+			});});
 
 			var reservationCount = 2;
 			$("#addRoom").click(function () {
@@ -263,6 +296,27 @@
 					e.preventDefault();
 				}
 			});
+
+			$('#cancelReservation').click(function () {
+				$('.modal-body #cancelReservationURL').attr('number', $(this).data('id'));
+				$('#cancelReservationModal').modal('show');
+			});
+
+			$("#cancelReservationURL").click(function () {
+				var id = $(this).attr('number')
+				$.ajax({
+					url : "{{url('/teacher/cancelReservation')}}" + "/" + id,
+					success: function (data) {
+						if (data.status == 'Success') {
+							$('#reservationID'+id).remove();
+						}
+					}
+				})
+			});
+			$("#reservationsTable").tablesorter({
+				headers: {
+					6: { sorter: false }
+			}});
 		});
 	</script>
 @endsection

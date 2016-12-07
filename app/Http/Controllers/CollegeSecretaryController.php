@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Reservation;
 use App\Semester;
+use App\Division;
+
 class CollegeSecretaryController extends Controller
 {
     /**
@@ -33,9 +35,16 @@ class CollegeSecretaryController extends Controller
             $activeSem = Semester::where('status', '=', 'Active' )->get()->first();
             $year = date('Y');
             $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
+
             $data['requests'] = $requests;            
             $data['year'] = $year;    
-            $data['activeSem'] = $activeSem;    
+            $data['activeSem'] = $activeSem;  
+
+            $divisions = Division::all();
+            $data['requests'] = $requests;
+            $data['divisions'] = $divisions;
+            $data['teacher'] = null;
+
             if ($requests != "") {
                 return view('secretary_dashboard', $data);
             }
@@ -51,9 +60,21 @@ class CollegeSecretaryController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'user_type' => 'Teacher'
+            'user_type' => 'Teacher',
+            'division_id' => $request->input('divisionID')
         ]);
-        echo json_encode($result);
+
+        $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
+        $divisions = Division::all();
+
+        $result['password'] = $request->input('password');
+
+        $data['requests'] = $requests;
+        $data['divisions'] = $divisions;
+        $data['teacher'] = $result;
+
+        return redirect('/collegeSecretary')->with('teacher', $result);
+//        echo json_encode($result);
     }
 
     public function set_semester(Request $request){

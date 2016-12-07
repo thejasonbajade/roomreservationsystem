@@ -46,7 +46,8 @@ class TeacherController extends Controller
     public function cancelReservation($reservationID) {
         $reservation = Reservation::find($reservationID);
         $reservation->delete();
-        return redirect('/home');
+        return response()->json(['status' => 'Success']);
+//        return redirect('/home');
     }
 
     public function editReservation($reservationID) {

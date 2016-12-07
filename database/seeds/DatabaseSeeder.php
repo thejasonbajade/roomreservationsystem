@@ -16,5 +16,25 @@ class DatabaseSeeder extends Seeder
         $this->call(DaysTableSeeder::class);
         $this->call(SemesterTableSeeder::class);
 
+        DB::table('divisions')->insert([
+            'name' => 'Division of Physical Sciences and Mathematics'
+        ]);
+
+        DB::table('divisions')->insert([
+            'name' => 'Division of Humanities'
+        ]);
+
+        DB::table('divisions')->insert([
+            'name' => 'Division of Biological Sciences'
+        ]);
+
+        DB::table('divisions')->insert([
+            'name' => 'Division of Social Sciences'
+        ]);
+
+        DB::table('divisions')->insert([
+            'name' => 'Department of Chemistry'
+        ]);
+
     }
 }
