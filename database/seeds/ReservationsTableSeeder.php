@@ -19,7 +19,7 @@ class ReservationsTableSeeder extends Seeder
             'end_time' => '08:30:00',
             'room_id' => '1',
             'semester_id' => '
-        
+        ));
         Reservation::create(array(
 	        'user_id' => '123456789',
             'status' => 'Dean Approved',
