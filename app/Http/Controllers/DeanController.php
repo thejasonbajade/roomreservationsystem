@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Room;
 use App\Reservation;
 class DeanController extends Controller
 {
@@ -37,7 +38,7 @@ class DeanController extends Controller
         if(Auth()->user()->user_type != 'Dean') {
             return redirect('/home');
         }
-
+        $data['rooms'] = Room::all();
         $requests = Reservation::where('date', '!=', '1111-11-11' )->where('status','College Secretary Approved' )->get();
         $data['requests'] = $requests;
         if ($requests != "") {

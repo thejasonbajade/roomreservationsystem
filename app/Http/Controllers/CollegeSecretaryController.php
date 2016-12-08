@@ -43,7 +43,7 @@ class CollegeSecretaryController extends Controller
             $semID = $activeSem->id;
             $year = date('Y');
             $requests = Reservation::where('date', '!=', '1111-11-11' )->where('semester_id',$semID)->get();
-
+            $data['rooms'] = Room::all();
             $data['requests'] = $requests;            
             $data['year'] = $year;    
             $data['activeSem'] = $activeSem;  

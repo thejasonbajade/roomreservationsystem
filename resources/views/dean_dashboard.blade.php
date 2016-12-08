@@ -22,7 +22,7 @@
 						<tr>
 							<td class="text-warning" id="{{ 'status'.$request->id }}">{{$request->status}}</td>
 								<td>{{ date("M j, Y", strtotime($request->date)) }}</td>
-								<td>{{$request->room_id}}</td>
+								<td>{{$request->room->name}}</td>
 								<td>{{ date("h:i A", strtotime($request->start_time)) }}</td>
 								<td>{{ date("h:i A", strtotime($request->end_time)) }}</td>
 								<td>{{ $request->created_at->format('M d, Y h:i A') }}</td>
