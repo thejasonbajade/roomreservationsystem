@@ -3,13 +3,53 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
+   <div class="col-md-12">
+                <input type="hidden" value="{{$activeSem->id}}" id="activeSem"/>
 
+                <div class='panel-heading col-md-3 pull-right'>
+				<select id="ayID" name="ayID" class="form-control" disabled >
+			
+					<option value="{{$activeSem->start_year}},{{$activeSem->end_year}}" {{$activeSem->start_year}} - {{$activeSem->end_year}}>				
+					{{$activeSem->start_year}} - {{$activeSem->end_year}}</option>
+				
+					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
+					{{$activeSem->start_year+1}} - {{$activeSem->end_year+1}}</option>
+
+				</select>
+
+										<select id="semID" name="semID" class="form-control" disabled>
+	
+											<option value="First Semester"@if($activeSem->semester=='First Semester') {{'selected'}} @endif>First Semester</option>
+										
+											<option value="Second Semester"@if($activeSem->semester=='Second Semester') {{'selected'}} @endif>Second Semester</option>
+										
+										<!-- 	<option value="Summer">Summer</option>
+										
+											<option value="First Trimester">First Trimester</option>
+										
+											<option value="Second Trimester">Second Trimester</option>
+										
+											<option value="Third Trimester">Third Trimester</option>
+										
+											<option value="Midyear">Midyear</option> -->
+									</select>
+				<!-- Add button -->
+					<button id="editButton" type="button" class="btn btn-default btn-md pull-right" >Edit</button>
+				<!-- End of Add button -->
+
+						</div>
+	            </div>
+        <div class="col-xs-12">
+
+            <div class="panel panel-default">
                 <div class="panel-heading"><b>Pending Requests</b></div>
 
+             
+                </div>
+
+
                 <div class="panel-body">
-					<table class="table table-hover">
+					<table class="table table-hover tablesorter" id="reserveTable">
 						<tbody><tr>
 							<th>Status</th>
 							<th><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp;Date</th>
@@ -21,17 +61,17 @@
 						</tr>
 	  					@foreach ($requests as $request)
 						<tr>
-							<td class="text-warning">{{$request->status}}</td>
-							<td>{{$request->date}}</td>
+							<td id="{{ 'status'.$request->id }}" class="text-warning">{{$request->status}}</td>
+							<td>{{ date("M j, Y", strtotime($request->date)) }}</td>
 							<td>{{$request->room_id}}</td>
-							<td>{{$request->start_time}}</td>
-							<td>{{$request->end_time}}</td>
-							<td>{{$request->created_at}}</td>
+							<td>{{ date("h:i A", strtotime($request->start_time)) }}</td>
+							<td>{{ date("h:i A", strtotime($request->end_time)) }}</td>
+							<td>{{ $request->created_at->format('M d, Y h:i A') }}</td>
 							<td>
   							<div style="display:inline;text-align:center;">
-  								<button  class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
+  								<button type='button' @if($request->status!='Pending') {{'disabled'}} @endif class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
   								
-  								<button { class="btn btn-default button" title="Decline" data-toggle="modal" data-backdrop="static" data-target="{{ '#'.'decline'.$request->id }}"  style="color:#e74c3c;font-size:15px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+  								<button type='button' @if($request->status!='Pending') {{'disabled'}} @endif class="btn btn-default button" title="Decline" data-toggle="modal" data-backdrop="static" data-target="{{ '#'.'decline'.$request->id }}"  style="color:#e74c3c;font-size:15px;"><i class="fa fa-times" aria-hidden="true" ></i></button>
   							</div>
 							</td>
 						</tr>
@@ -172,8 +212,6 @@
 
 		<!-- END OF MODAL -->
 
-
-
 		<!-- MODAL -->
 		@if(session('teacher'))
 		<div id="teacherProfile" class="modal fade" role="document" >
@@ -206,25 +244,67 @@
 			$('#teacherProfile').modal('show');
 		}
 
-		$('[id^=decline_button]').click(function(){   
+
+	  	// $("#reserveTable").tablesorter({ 
+    //     // pass the headers argument and assing a object 
+    //     headers: { 
+    //         // assign the secound column (we start counting zero) 
+    //         } 
+    //       }); 
+
+		$('[id^=decline_button]').click(function(){
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/collegeSecretary/set_declined/"+this.value, 
                   success: function(result){
                       console.log(result);
+					  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
 		});
 
-		$('[id^=approve_button]').click(function(){   
+		$('[id^=approve_button]').click(function(){
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/collegeSecretary/set_approved/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
 		});
+
+			$("#editButton").on('click', editSem)
+
+			function editSem(){
+				$("#ayID").prop('disabled', false);
+				$("#semID").prop('disabled', false);
+				$("#editButton").text('Save');
+			    $("#editButton").off('click').on('click', saveSem)
+				console.log('kek');
+			}
+
+			function saveSem() {
+				$("#ayID").prop('disabled', true);
+				$("#semID").prop('disabled', true);
+				$("#editButton").text('Edit');
+				var year = $('#ayID').find(":selected").val();
+				var semester = $('#semID').find(":selected").val();
+				var activeSem = $('#activeSem').val();
+	            $.ajax({
+	                  url: "{{url('/')}}/collegeSecretary/set_semester", 
+	                  data: {'semester':semester, 'year':year, 'activeSem':activeSem, "_token": "{{ csrf_token() }}" },
+	                  type: "POST",
+	                  dataType:'json',
+	                  success: function(result){
+	                      console.log(result);
+	                      location.reload();
+	                  }
+	              });
+			    $("#editButton").off('click').on('click', editSem);
+			}
 
 		$('#divisionID').focusout(function(){
 			chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -237,3 +317,4 @@
 	});
 </script>
 @endsection
+

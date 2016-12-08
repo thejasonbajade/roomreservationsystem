@@ -12,12 +12,12 @@
 				<button class="btn btn-xs btn-primary" id="addRoom" style="margin-left: 4%;">Add Room</button>
 					<form role="form" action="{{url('/teacher/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
-						<div id="reservationDiv">
-							<div id="reservationField1" number="1" class="col-md-12">
+						<div id="reservationFields">
+							<div>
 								<div class="col-md-2">
 									<div class="form-group">
 										<label for="room">Room</label>
-										<select class="form-control" id="roomID1" name="roomID[]">
+										<select class="form-control" id="roomID[]" name="roomID[]">
 											@foreach($rooms as $room)
 												<option value="{{$room->id}}">{{$room->name}}</option>
 											@endforeach
@@ -30,7 +30,6 @@
 										<label for="date">Date</label>
 										<input type="date" class="form-control" id="date1" name="date[]" required>
 									</div>
-									<p id="dateWarning1"></p>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -45,14 +44,14 @@
 									</div>
 									<p id="timeWarning1"></p>
 								</div>
-								<div class="col-md-1">
-									<p id="status1" class="text-success"></p>
-								</div>
+                                <div class="col-md-1">
+									<p id="status"></p>
+                                </div>
 							</div>
 						</div>
-						<div class="col-md-3 col-md-offset-9">
-							<input type="submit" name="submit" class="btn btn-block btn-primary" style="margin-top:25px;" value="Add"/>
-						</div>
+                        <div class="col-md-3 col-md-offset-9">
+						    <input type="submit" name="submit" class="btn btn-block btn-primary" style="margin-top:25px;" value="Add"/>
+                        </div>
 					</form>
 				</div>
 			</div>
@@ -165,24 +164,10 @@
 	</div>
 </div>
 	<script type="text/javascript">
-		$(document).ready(function($) {
-
-			var isConflict = false;
-
-			$('#reservationDiv').on('focusout', "[id^='date']", function () {
-				var number = $(this).parent('div').parent('div').parent('div').attr('number');
-				var dateApplied = new Date($(this).val());
-				var currentDate = new Date();
-				dateApplied.setDate(dateApplied.getDate()-3);
-				console.log(dateApplied);
-				if(!(dateApplied >= currentDate)) {
-					console.log('Reserved 3 days before');
-					$('#dateWarning'+number).html('Must be filed at least 3 days before.');
-					var isConflict = true;
-				} else {
-					console.log('Late');
-					$('#dateWarning'+number).html('');
-					var isConflict = false;
+		$(document).ready(function() {
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('[name="_token"]').val()
 				}
 			});
 
@@ -302,8 +287,7 @@
 				)
 				reservationCount++;
 			});
-
-			$('#reservationDiv').on('click', ".remove", function (e) {
+			$('#reservationFields').on('click', ".remove", function (e) {
 				e.preventDefault();
 				$(this).parent('div').parent('div').remove();
 				reservationCount--
