@@ -3,13 +3,10 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-
-                <div class="col-md-3">
+   <div class="col-md-12">
                 <input type="hidden" value="{{$activeSem->id}}" id="activeSem"/>
 
-                <div class='col-xs-12'>
+                <div class='panel-heading col-md-3 pull-right'>
 				<select id="ayID" name="ayID" class="form-control" disabled >
 			
 					<option value="{{$activeSem->start_year}},{{$activeSem->end_year}}" {{$activeSem->start_year}} - {{$activeSem->end_year}}>				
@@ -37,15 +34,18 @@
 											<option value="Midyear">Midyear</option> -->
 									</select>
 				<!-- Add button -->
-				<div class="col-md-12">
-					<button id="editButton" type="button" class="btn btn-default btn-md" >Edit</button>
-				</div>
+					<button id="editButton" type="button" class="btn btn-default btn-md pull-right" >Edit</button>
 				<!-- End of Add button -->
 
 						</div>
 	            </div>
-                </div>
+        <div class="col-xs-12">
+
+            <div class="panel panel-default">
                 <div class="panel-heading"><b>Pending Requests</b></div>
+
+             
+                </div>
 
 
                 <div class="panel-body">
@@ -62,11 +62,11 @@
 	  					@foreach ($requests as $request)
 						<tr>
 							<td id="{{ 'status'.$request->id }}" class="text-warning">{{$request->status}}</td>
-							<td>{{$request->date}}</td>
+							<td>{{ date("M j, Y", strtotime($request->date)) }}</td>
 							<td>{{$request->room_id}}</td>
-							<td>{{$request->start_time}}</td>
-							<td>{{$request->end_time}}</td>
-							<td>{{$request->created_at}}</td>
+							<td>{{ date("h:i A", strtotime($request->start_time)) }}</td>
+							<td>{{ date("h:i A", strtotime($request->end_time)) }}</td>
+							<td>{{ $request->created_at->format('M d, Y h:i A') }}</td>
 							<td>
   							<div style="display:inline;text-align:center;">
   								<button type='button' @if($request->status!='Pending') {{'disabled'}} @endif class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>

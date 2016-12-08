@@ -21,11 +21,11 @@
 	  					@foreach ($requests as $request)
 						<tr>
 							<td class="text-warning" id="{{ 'status'.$request->id }}">{{$request->status}}</td>
-							<td>{{$request->date}}</td>
-							<td>{{$request->room_id}}</td>
-							<td>{{$request->start_time}}</td>
-							<td>{{$request->end_time}}</td>
-							<td>{{$request->created_at}}</td>
+								<td>{{ date("M j, Y", strtotime($request->date)) }}</td>
+								<td>{{$request->room_id}}</td>
+								<td>{{ date("h:i A", strtotime($request->start_time)) }}</td>
+								<td>{{ date("h:i A", strtotime($request->end_time)) }}</td>
+								<td>{{ $request->created_at->format('M d, Y h:i A') }}</td>
 							<td>
   							<div style="display:inline;text-align:center;">
   								<button  class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
