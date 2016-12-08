@@ -14,6 +14,7 @@
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/styleUI.css')}}">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <!-- Scripts -->
     <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/jquery.tableSorter.js')}}"></script>

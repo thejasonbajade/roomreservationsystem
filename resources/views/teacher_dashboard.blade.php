@@ -61,18 +61,21 @@
 		<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading"><b>Reservations</b></div>
-						<table class="table table-hover">
-							<tr>
-								<th>Status</th>
-								<th>Date</th>
-								<th>Room</th>
-								<th>Start Time</th>
-								<th>End Time</th>
-								<th>Date Filed </th>
-								<th></th>
-							</tr>
+					<table class="table table-hover tablesorter" id="reservationsTable">
+						<thead>
+						<tr>
+							<th>Status</th>
+							<th>Date</th>
+							<th>Room</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Date Filed </th>
+						</tr>
+						</thead>
+						<tbody>
 						@foreach($reservations as $reservation)
-							<tr>
+
+							<tr id="reservationID{{$reservation->id}}">
 								<td class="text-warning">{{ $reservation->status }}</td>
 								<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
 								<td>{{ $reservation->room->name }}</td>
@@ -80,11 +83,12 @@
 								<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
 								<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
 								<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true" style="color: green; cursor: pointer;"></i></a>
-									<a href="{{url('/teacher/cancelReservation/'.$reservation->id)}}" class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
+									<a id="cancelReservation" class="text-danger" data-id="{{$reservation->id}}" role="button" data-toggle="modal" data-target="#cancelReservationModal"><i class="fa fa-times" aria-hidden="true"></i></a>
 								</td>
 							</tr>
 						@endforeach
-						</table>
+						</tbody>
+					</table>
 				</div>
 			</div>
 
@@ -310,6 +314,7 @@
 					e.preventDefault();
 				}
 			});
+
 			$('#editURL').submit(function (e) {
 				if(isConflict == true) {
 					e.preventDefault();
@@ -317,7 +322,6 @@
 			});
 			$('#cancelReservation').click(function () {
 				$('.modal-body #cancelReservationURL').attr('number', $(this).data('id'));
-				$('#cancelReservationModal').modal('show');
 			});
 
 			$("#cancelReservationURL").click(function () {
