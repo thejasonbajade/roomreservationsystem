@@ -34,8 +34,9 @@ class CollegeSecretaryController extends Controller
 
     public function dashboard(){
             $activeSem = Semester::where('status', '=', 'Active' )->get()->first();
+            $semID = $activeSem->id;
             $year = date('Y');
-            $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
+            $requests = Reservation::where('date', '!=', '1111-11-11' )->where('semester_id',$semID)->get();
 
             $data['requests'] = $requests;            
             $data['year'] = $year;    
@@ -80,20 +81,20 @@ class CollegeSecretaryController extends Controller
 
     public function set_semester(Request $request){
 
-        if($request->input('activeSem')!=''){
+        $sem = $request->input('semester');
+        $ay = explode(',',$request->input('year'));
+        $result = Semester::where('start_year', $ay[0])
+                        ->where('end_year', $ay[1])
+                        ->where('semester', $sem)
+                       ->update(['status' => 'Active']);
+
+        if($result==1){
             $prevID = $request->input('activeSem');
             Semester::where('id', $prevID)
                        ->update(['status' => 'Not Active']);
         }
 
-        $sem = $request->input('semester');
-        $ay = explode(',',$request->input('year'));
-
-        Semester::where('start_year', $ay[0])
-                        ->where('end_year', $ay[1])
-                        ->where('semester', $sem)
-                       ->update(['status' => 'Active']);
-        return \Redirect::back();
+        echo json_encode($result);
 
     }
 

@@ -37,14 +37,7 @@
 					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
 					{{$activeSem->start_year+1}} - {{$activeSem->end_year+1}}</option>
 
-					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
-					{{$activeSem->start_year+2}} - {{$activeSem->end_year+2}}</option>				
 
-					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
-					{{$activeSem->start_year+3}} - {{$activeSem->end_year+3}}</option>
-
-					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
-					{{$activeSem->start_year+4}} - {{$activeSem->end_year+4}}</option>
 				</select>
 
 										<select id="semID" name="semID" class="form-control" disabled>
@@ -316,6 +309,7 @@
 	                  dataType:'json',
 	                  success: function(result){
 	                      console.log(result);
+	                      location.reload();
 	                  }
 	              });
 			    $("#editButton").off('click').on('click', editSem);
