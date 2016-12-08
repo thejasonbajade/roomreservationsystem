@@ -56,7 +56,9 @@ nav{
 #sidebar-wrapper a:hover, .links a{
     color: #fff;
 }
-
+.panel-heading{
+    border-bottom: none;
+}
 .m-b-md {
     margin-bottom: 30px;
 }
