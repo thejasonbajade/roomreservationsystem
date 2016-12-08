@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{asset('css/styleUI.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <!-- Scripts -->
-    <script src="{{asset('/js/jquery-latest.min.js')}}"></script>
+    <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/jquery.tableSorter.js')}}"></script>
     <script>
 
