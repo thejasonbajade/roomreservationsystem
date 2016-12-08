@@ -85,9 +85,9 @@
 							<td>{{$request->created_at}}</td>
 							<td>
   							<div style="display:inline;text-align:center;">
-  								<button  class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
+  								<button type='button' @if($request->status!='Pending') {{'disabled'}} @endif class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
   								
-  								<button { class="btn btn-default button" title="Decline" data-toggle="modal" data-backdrop="static" data-target="{{ '#'.'decline'.$request->id }}"  style="color:#e74c3c;font-size:15px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+  								<button type='button' @if($request->status!='Pending') {{'disabled'}} @endif class="btn btn-default button" title="Decline" data-toggle="modal" data-backdrop="static" data-target="{{ '#'.'decline'.$request->id }}"  style="color:#e74c3c;font-size:15px;"><i class="fa fa-times" aria-hidden="true" ></i></button>
   							</div>
 							</td>
 						</tr>
