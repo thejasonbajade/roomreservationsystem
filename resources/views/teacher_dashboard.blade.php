@@ -28,21 +28,22 @@
 
 									<div class="form-group">
 										<label for="date">Date</label>
-										<input type="date" class="form-control" id="date1" name="date[]" placeholder="MTh">
+										<input type="date" class="form-control" id="date1" name="date[]" required>
 									</div>
 									<p id="dateWarning1"></p>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="startTime">Start Time:</label>
-										<input type="time" class="form-control" id="startTime1" name="startTime[]" placeholder="7:30-8:00">
+										<input type="time" class="form-control" id="checkTimeStart1" name="startTime[]" required>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="EndTime">End Time:</label>
-										<input type="time" class="form-control" id="endTime1" name="endTime[]" placeholder="7:30-8:00">
+										<input type="time" class="form-control" id="checkTimeEnd1" name="endTime[]" required>
 									</div>
+									<p id="timeWarning1"></p>
 								</div>
 								<div class="col-md-1">
 									<p id="status1" class="text-success"></p>
@@ -181,6 +182,29 @@
 				}
 			});
 
+			$('#reservationDiv').on('focusout', "[id^='checkTime']", function () {
+				var number = $(this).parent('div').parent('div').parent('div').attr('number');
+				console.log('hallo')
+				if($('#checkTimeEnd'+number).val() && $('#checktTimeStart'+number).val()) {
+					console.log('passoook')
+					var t = new Date();
+					d = t.getDate();
+					m = t.getMonth() + 1;
+					y = t.getFullYear();
+
+					var endTime = new Date(m + "/" + d + "/" + y + " " + $('#checkTimeEnd'+number).val());
+					var startTime = new Date(m + "/" + d + "/" + y + " " + $('#checkTimeStart'+number).val());
+					if(endTime.getTime() <= startTime.getTime()) {
+						console.log('conflict');
+						$('#timeWarning'+number).html('Invalid time.');
+						isConflict = true;
+					} else {
+						$('#timeWarning'+number).html('');
+						isConflict = false;
+					}
+				}
+			});
+
 			$('.reservationEdit').click(function () {
 				var id = $(this).attr('id');
 				$.ajax({
@@ -212,8 +236,8 @@
 				data: {
 					'roomID': $('#roomID'+number).val(),
 					'date': $('#date'+number).val(),
-					'startTime': $('#startTime'+number).val(),
-					'endTime': $('#endTime'+number).val()
+					'startTime': $('#checkTimeStart'+number).val(),
+					'endTime': $('#checkTimeEnd'+number).val()
 				},
 				dataType: 'json',
 				success: function (data) {
@@ -251,19 +275,20 @@
 						"</div> " +
 						"<div class='col-md-3'> " +
 						"<div class='form-group'> " +
-						"<input type='date' class='form-control' id='date"+ reservationCount +"' name='date[]' placeholder='MTh'> " +
+						"<input type='date' class='form-control' id='date"+ reservationCount +"' name='date[]' required> " +
 						"</div>" +
 						"<p id='dateWarning" + reservationCount + "'></p>" +
 						"</div> " +
 						"<div class='col-md-3'> " +
 						"<div class='form-group'> " +
-						"<input type='time' class='form-control' id='startTime" + reservationCount + "' name='startTime[]' placeholder='7:30-8:00'> " +
+						"<input type='time' class='form-control' id='checkTimeStart" + reservationCount + "' name='startTime[]' required> " +
 						"</div> " +
 						"</div> " +
 						"<div class='col-md-3'> " +
 						"<div class='form-group'> " +
-						"<input type='time' class='form-control' id='endTime" + reservationCount + "' name='endTime[]' placeholder='7:30-8:00'> " +
+						"<input type='time' class='form-control' id='checkTimeEnd" + reservationCount + "' name='endTime[]' required> " +
 						"</div> " +
+						"<p id='timeWarning"+ reservationCount + "'></p>" +
 						"</div>" +
 						"<div class='col-md-1'>" +
 						"<p id='status" + reservationCount + "' class='text-success'></p>" +
