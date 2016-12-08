@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-1">
+		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading"><b>Reserve Rooms</b></div>
 
@@ -57,7 +57,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-8 col-md-offset-1">
+		<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading"><b>Reservations</b></div>
 					<table class="table table-hover tablesorter" id="reservationsTable">
