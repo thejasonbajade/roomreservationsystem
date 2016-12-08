@@ -63,7 +63,7 @@
                         @else
                             <li class="dropdown" style="background-color: #636b6f">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;padding-top: 0">
-                                    <img src="images/UPVisayas.png" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
+                                    <img src="{{asset('images/UPVisayas.png')}}" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu" style="background-color: #636b6f; text-align: right;">
@@ -91,15 +91,13 @@
         <div id="wrapper">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li><img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="user-name">{{ Auth::user()->name }}</span></li>
+                    <li><img src="{{asset('images/UPVisayas.png')}}" class="profile-picture" alt="icon"></img><span class="user-name">{{ Auth::user()->name }}</span></li>
                     @if (Auth::user()->user_type == "Teacher")
                     <li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
                     @elseif (Auth::user()->user_type == "College Secretary")
                     <li><a href="" data-backdrop="static" data-toggle="modal" data-target="#addEmp">Add Teacher</a></li>
-                    <li><a href="#">Add Schedule</a></li>
+                    <li><a href="{{url('/collegeSecretary/add_regular_schedule')}}">Add Schedule</a></li>
                     @elseif (Auth::user()->user_type == "Dean")
-                    <li><a href="#">Add Teacher</a></li>
-                    <li><a href="#">Add Schedule</a></li>
                     @endif
                     <li><a href="{{ url('/logout') }}"
                             onclick="event.preventDefault();

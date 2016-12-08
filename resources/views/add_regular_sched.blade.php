@@ -12,7 +12,7 @@
                     <div class="modal-content" style="text-align:left;">
                         <div class="modal-header" style="background-color:#e74c3c;color:white;">
                             <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                            <p class="modal-title"><strong>&nbsp; Add Regular Shedule </strong></p>
+                            <p class="modal-title"><strong>&nbsp; Add Regular Schedule </strong></p>
                         </div>
                         <div class="modal-body" >
                             <div class="container-fluid">
