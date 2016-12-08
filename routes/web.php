@@ -30,6 +30,8 @@ Route::get('/collegeSecretary', 'CollegeSecretaryController@dashboard');
 Route::get('/collegeSecretary/set_declined/{id}', 'CollegeSecretaryController@set_declined');
 Route::get('/collegeSecretary/set_approved/{id}', 'CollegeSecretaryController@set_approved');
 Route::post('/collegeSecretary/add_teacher', 'CollegeSecretaryController@add_teacher');
+Route::get('/collegeSecretary/add_regular_schedule', 'CollegeSecretaryController@addRegularSchedule');
+Route::post('/collegeSecretary/process_add_regular_schedule','CollegeSecretaryController@processAddRegularSchedule');
 
 Route::get('/dean', 'DeanController@dashboard');
 Route::get('/dean/set_approved/{id}', 'DeanController@set_approved');
