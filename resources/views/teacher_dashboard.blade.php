@@ -48,7 +48,7 @@
 				<div class="panel-heading">Reserve Rooms</div>
 
 				<div class="panel-body">
-				<button class="btn btn-primary" id="addRoom">Add Room</button>
+				<button class="btn btn-primary btn-xs" id="addRoom">Add Room</button>
 					<form role="form" action="{{url('/teacher/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
 						<div id="reservationDiv">
@@ -93,34 +93,6 @@
 						</div>
 					</form>
 
-					<table class="table table-hover tablesorter" id="reservationsTable">
-						<thead>
-							<tr>
-								<th>Status</th>
-								<th>Date</th>
-								<th>Room</th>
-								<th>Start Time</th>
-								<th>End Time</th>
-								<th>Date Filed </th>
-
-							</tr>
-						</thead>
-						<tbody>
-						@foreach($reservations as $reservation)
-							<tr id="reservationID{{$reservation->id}}">
-								<td class="text-warning">{{ $reservation->status }}</td>
-								<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
-								<td>{{ $reservation->room->name }}</td>
-								<td>{{ date("h:i A", strtotime($reservation->start_time)) }}</td>
-								<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
-								<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
-								<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-									<a class="text-danger" data-toggle="modal" id="cancelReservation" data-id="{{$reservation->id}}"><i class="fa fa-times" aria-hidden="true"></i></a>
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>
