@@ -39,12 +39,19 @@ class CollegeSecretaryController extends Controller
     }
 
     public function dashboard(){
+            $activeSem = Semester::where('status', '=', 'Active' )->get()->first();
+            $semID = $activeSem->id;
+            $year = date('Y');
+            $requests = Reservation::where('date', '!=', '1111-11-11' )->where('semester_id',$semID)->get();
+
+            $data['requests'] = $requests;            
+            $data['year'] = $year;    
+            $data['activeSem'] = $activeSem;  
 
         if(Auth()->user()->user_type != 'College Secretary') {
             return redirect('/home');
         }
 
-        $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
         $divisions = Division::all();
         $data['requests'] = $requests;
         $data['divisions'] = $divisions;
@@ -84,14 +91,36 @@ class CollegeSecretaryController extends Controller
 //        echo json_encode($result);
     }
 
-    public function set_declined(Request $request, $id) {
+    public function set_semester(Request $request){
 
+        $sem = $request->input('semester');
+        $ay = explode(',',$request->input('year'));
+        $result = Semester::where('start_year', $ay[0])
+                        ->where('end_year', $ay[1])
+                        ->where('semester', $sem)
+                       ->update(['status' => 'Active']);
+        $newID = Semester::where('start_year', $ay[0])
+                        ->where('end_year', $ay[1])
+                        ->where('semester', $sem)->get()->first();
+        $prevID = $request->input('activeSem');
+
+        if($result==1&&($newID->id!=$prevID)){
+            Semester::where('id', $prevID)
+                       ->update(['status' => 'Not Active']);
+        }
+
+        echo json_encode($result);
+
+    }
+
+    public function set_declined(Request $request, $id){
         if(Auth()->user()->user_type != 'College Secretary') {
             return redirect('/home');
         }
+
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'declined-College Secretary']);
-        echo json_encode($result);
+                       ->update(['status' => 'College Secretary Denied']);
+        echo json_encode('College Secretary Denied');
     }
 
     public function set_approved(Request $request, $id){
@@ -101,8 +130,8 @@ class CollegeSecretaryController extends Controller
         }
 
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'approved-College Secretary']);
-        echo json_encode($result);
+                       ->update(['status' => 'College Secretary Approved']);
+        echo json_encode('College Secretary Approved');
     }
 
     public function addRegularSchedule() {

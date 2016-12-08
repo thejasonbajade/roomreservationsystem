@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>CAS - Room Reservation</title>
 
@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="{{asset('css/styleUI.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <!-- Scripts -->
-    <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/jquery-latest.min.js')}}"></script>
     <script src="{{asset('/js/jquery.tableSorter.js')}}"></script>
     <script>
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('[name="_token"]').val()
