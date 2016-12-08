@@ -13,9 +13,10 @@
     <!-- Styles -->
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/styleUI.css">
+    <link rel="stylesheet" href="{{asset('css/styleUI.css')}}">
     <!-- Scripts -->
     <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.tableSorter.js')}}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -28,7 +29,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="font/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css')}}">
 </head>
 <body>
     <div id="app">
@@ -63,7 +64,7 @@
                         @else
                             <li class="dropdown" style="background-color: #636b6f">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;padding-top: 0">
-                                    <img src="images/UPVisayas.png" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
+                                    <img src="{{asset('images/UPVisayas.png')}}" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu" style="background-color: #636b6f; text-align: right;">
@@ -91,7 +92,7 @@
         <div id="wrapper">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li><img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="user-name">{{ Auth::user()->name }}</span></li>
+                    <li><img src="{{asset('/images/UPVisayas.png')}}" class="profile-picture" alt="icon"><span class="user-name">{{ Auth::user()->name }}</span></li>
                     @if (Auth::user()->user_type == "Teacher")
                     <li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
                     @elseif (Auth::user()->user_type == "College Secretary")

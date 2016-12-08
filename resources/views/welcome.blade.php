@@ -58,7 +58,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading text-head" style="color:#636b6f;background-color:white;"><b>Login</b></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
