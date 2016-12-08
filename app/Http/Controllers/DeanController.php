@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Room;
 use App\Reservation;
 class DeanController extends Controller
 {
@@ -37,8 +38,8 @@ class DeanController extends Controller
         if(Auth()->user()->user_type != 'Dean') {
             return redirect('/home');
         }
-
-        $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
+        $data['rooms'] = Room::all();
+        $requests = Reservation::where('date', '!=', '1111-11-11' )->where('status','College Secretary Approved' )->get();
         $data['requests'] = $requests;
         if ($requests != "") {
             return view('dean_dashboard', $data);
@@ -55,8 +56,8 @@ class DeanController extends Controller
         }
 
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'declined-Dean']);
-        echo json_encode($result);
+                       ->update(['status' => 'Dean Declined']);
+        echo json_encode('Dean Declined');
     }
 
     public function set_approved(Request $request, $id){
@@ -65,7 +66,7 @@ class DeanController extends Controller
         }
 
         $result = Reservation::where('id', $id)
-                       ->update(['status' => 'approved-Dean']);
-        echo json_encode($result);
+                       ->update(['status' => 'Dean Approved']);
+        echo json_encode('Dean Approved');
     }
 }

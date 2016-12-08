@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Day extends Model
 {
     protected $table = 'days';
+
     protected $fillable = [
         'reservation_id', 'day'
     ];
+
 }

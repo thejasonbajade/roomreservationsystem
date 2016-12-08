@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Room Reservation System</title>
+        <title>CAS - Room Reservation</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -62,10 +62,9 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label text-head">E-Mail Address</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                            <div class="col-md-12">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus placeholder="Email Address" style="font-weight: bold;">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -76,10 +75,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label text-head">Password</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                            <div class="col-md-12">
+                                <input id="password" type="password" class="form-control" name="password" required placeholder="Password" style="font-weight: bold;">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -90,7 +88,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" class="text-head" name="remember"> <b>Remember Me</b>
@@ -100,7 +98,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
+                            <div class="col-md-8">
                                 <button type="submit" class="btn btn-primary">
                                     <b>Login</b>
                                 </button>

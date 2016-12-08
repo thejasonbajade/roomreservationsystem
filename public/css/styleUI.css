@@ -56,12 +56,20 @@ nav{
 #sidebar-wrapper a:hover, .links a{
     color: #fff;
 }
+.panel-heading{
+    border-bottom: none;
+}
 .m-b-md {
     margin-bottom: 30px;
 }
 .profile-picture{
-    width: 30%;
-    padding: 5px;
+    padding-bottom: 5px;
+    width: 35%;
+}
+hr{
+    width: 80%;
+    color: #737373;
+    padding: 0;
 }
 #footer {
    position:absolute;

@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'GeneralViewController@index');
+Route::get('/schedule/{roomID}', 'GeneralViewController@getTodaySchedule');
 
 Auth::routes();
 
@@ -31,6 +30,7 @@ Route::get('/collegeSecretary', 'CollegeSecretaryController@dashboard');
 Route::get('/collegeSecretary/set_declined/{id}', 'CollegeSecretaryController@set_declined');
 Route::get('/collegeSecretary/set_approved/{id}', 'CollegeSecretaryController@set_approved');
 Route::post('/collegeSecretary/add_teacher', 'CollegeSecretaryController@add_teacher');
+Route::post('/collegeSecretary/set_semester', 'CollegeSecretaryController@set_semester');
 Route::get('/collegeSecretary/add_regular_schedule', 'CollegeSecretaryController@addRegularSchedule');
 Route::post('/collegeSecretary/process_add_regular_schedule','CollegeSecretaryController@processAddRegularSchedule');
 

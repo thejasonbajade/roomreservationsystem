@@ -20,12 +20,12 @@
 						</tr>
 	  					@foreach ($requests as $request)
 						<tr>
-							<td class="text-warning">{{$request->status}}</td>
-							<td>{{$request->date}}</td>
-							<td>{{$request->room_id}}</td>
-							<td>{{$request->start_time}}</td>
-							<td>{{$request->end_time}}</td>
-							<td>{{$request->created_at}}</td>
+							<td class="text-warning" id="{{ 'status'.$request->id }}">{{$request->status}}</td>
+								<td>{{ date("M j, Y", strtotime($request->date)) }}</td>
+								<td>{{$request->room->name}}</td>
+								<td>{{ date("h:i A", strtotime($request->start_time)) }}</td>
+								<td>{{ date("h:i A", strtotime($request->end_time)) }}</td>
+								<td>{{ $request->created_at->format('M d, Y h:i A') }}</td>
 							<td>
   							<div style="display:inline;text-align:center;">
   								<button  class="btn bg-primary btn-default button" data-toggle="modal" title="Approve" style="color:#2ecc71;" data-backdrop="static" data-target="{{ '#'.'approve'.$request->id }}"><i class="fa fa-check" aria-hidden="true"></i></button>
@@ -82,20 +82,24 @@
 	$(document).ready(function() {
 
 		$('[id^=decline_button]').click(function(){   
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/dean/set_declined/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
 		});
 
 		$('[id^=approve_button]').click(function(){   
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/dean/set_approved/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>CAS - Room Reservation</title>
 
@@ -19,6 +19,7 @@
     <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('/js/jquery.tableSorter.js')}}"></script>
     <script>
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('[name="_token"]').val()
@@ -64,8 +65,8 @@
                         @if (Auth::guest())
                         @else
                             <li class="dropdown" style="background-color: #636b6f">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;padding-top: 0">
-                                    <img src="{{asset('images/UPVisayas.png')}}" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;padding-top: 5px;">
+                                    <img src="{{asset('images/UPVisayas.png')}}" class="profile-picture" alt="icon" style="width: 7%;"></img>&nbsp;&nbsp;{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu" style="background-color: #636b6f; text-align: right;">
@@ -93,7 +94,7 @@
         <div id="wrapper">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li><img src="{{asset('/images/UPVisayas.png')}}" class="profile-picture" alt="icon"/><span class="user-name">{{ Auth::user()->name }}</span></li>
+                    <li style="text-align:center;"><br id="imgbr"/><img src="{{asset('/images/UPVisayas.png')}}" class="profile-picture" alt="icon"/><br/><span class="user-name" style="text-align: center;">{{ Auth::user()->name }}</span><hr/></li>
                     @if (Auth::user()->user_type == "Teacher")
                     <li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
                     @elseif (Auth::user()->user_type == "College Secretary")
