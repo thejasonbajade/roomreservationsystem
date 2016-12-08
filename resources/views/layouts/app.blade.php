@@ -35,7 +35,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top" style="background-color: #636b6f">
+        <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #636b6f; clear:both;">
             <div class="container">
                 <div class="navbar-header">
 
@@ -53,7 +53,7 @@
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f">
+                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f; height:50px;">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
@@ -63,12 +63,10 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}" style="color: #fff;">Login</a></li>
-                            <li><a href="{{ url('/register') }}" style="color: #fff;">Register</a></li>
                         @else
                             <li class="dropdown" style="background-color: #636b6f">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="background-color: #636b6f; color: #fff; text-align: right;padding-top: 0">
+                                    <img src="images/UPVisayas.png" class="profile-picture" alt="icon" style="width: 10%;"></img>{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu" style="background-color: #636b6f; text-align: right;">
@@ -92,7 +90,30 @@
                 </div>
             </div>
         </nav>
+        @if (Auth::check())
+        <div id="wrapper">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li><img src="images/UPVisayas.png" class="profile-picture" alt="icon"></img><span class="user-name">{{ Auth::user()->name }}</span></li>
+                    @if (Auth::user()->user_type == "Teacher")
+                    <li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
+                    @elseif (Auth::user()->user_type == "College Secretary")
+                    <li><a href="" data-backdrop="static" data-toggle="modal" data-target="#addEmp">Add Teacher</a></li>
+                    <li><a href="#">Add Schedule</a></li>
+                    @elseif (Auth::user()->user_type == "Dean")
+                    <li><a href="#">Add Teacher</a></li>
+                    <li><a href="#">Add Schedule</a></li>
+                    @endif
+                    <li><a href="{{ url('/logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">Logout</a></li>
+                </ul>
+            </div>
+            @endif
         @yield('content')
+        @if (Auth::check())
+        </div>
+        @endif
     </div> 
     <!-- Scripts -->
     <script src="{{asset('/js/app.js')}}"></script>
