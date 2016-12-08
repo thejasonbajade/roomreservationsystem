@@ -6,11 +6,10 @@
         @foreach($rooms as $room)
             <a role="button" class="addSchedButton" id="{{$room->id}}" data-dismiss="modal" data-toggle="modal" data-target="#addScheule"> {{ $room->name }} </a>
         @endforeach
-
         <div id="addScheule" class="modal fade">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="text-align:left;">
-                    <div class="modal-header" style="background-color:#e74c3c;color:white;">
+                    <div class="modal-header" style="background-color:#636b6f;color:white;">
                         <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
                         <p class="modal-title"><strong>&nbsp; Add Regular Shedule </strong></p>
                     </div>
@@ -58,7 +57,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default" id="addSched" style="background-color:#e74c3c;color:white;width:100px;text-align:center;" form="addRegularSched"> Add </button>
+                        <button type="submit" class="btn btn-success" id="addSched" style="color:white;width:100px;text-align:center;" form="addRegularSched"> Add </button>
                     </div>
                 </div>
             </div>
@@ -68,7 +67,7 @@
         <div class="modal modal-transparent fade" id="successModal">
             <div class="modal-dialog" style="width:300px;height:60px;">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color:#e74c3c;padding:3px;margin-bottom:10px;">
+                    <div class="modal-header" style="background-color:#636b6f;padding:3px;margin-bottom:10px;">
                         <p style="color:white;font-size:18px;text-align:center;margin-top:3px;">Success!</p>
                     </div>
                     <div class="modal-body" style="padding:10px;display:inline;">

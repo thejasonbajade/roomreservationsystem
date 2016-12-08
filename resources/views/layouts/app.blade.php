@@ -34,7 +34,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #636b6f; clear:both;">
+        <nav class="navbar navbar-default navbar-static-top" style="background-color: #636b6f;">
             <div class="container">
                 <div class="navbar-header">
 
@@ -52,7 +52,7 @@
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f; height:50px;">
+                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background-color: #636b6f">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
@@ -93,15 +93,13 @@
         <div id="wrapper">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li><img src="{{asset('/images/UPVisayas.png')}}" class="profile-picture" alt="icon"><span class="user-name">{{ Auth::user()->name }}</span></li>
+                    <li><img src="{{asset('/images/UPVisayas.png')}}" class="profile-picture" alt="icon"/><span class="user-name">{{ Auth::user()->name }}</span></li>
                     @if (Auth::user()->user_type == "Teacher")
                     <li><a href="{{ url('/viewRooms') }}">View Rooms</a></li>
                     @elseif (Auth::user()->user_type == "College Secretary")
                     <li><a href="" data-backdrop="static" data-toggle="modal" data-target="#addEmp">Add Teacher</a></li>
-                    <li><a href="#">Add Schedule</a></li>
+                    <li><a href="{{url('/collegeSecretary/add_regular_schedule')}}">Add Schedule</a></li>
                     @elseif (Auth::user()->user_type == "Dean")
-                    <li><a href="#">Add Teacher</a></li>
-                    <li><a href="#">Add Schedule</a></li>
                     @endif
                     <li><a href="{{ url('/logout') }}"
                             onclick="event.preventDefault();

@@ -3,16 +3,10 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="panel panel-default">
-				<!-- Add button -->
-				<div class="col-md-12" id="addBtn">
-					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
-				</div>
-				<a href="{{url('/collegeSecretary/add_regular_schedule')}}">Add Regular Sched</a>
-				<!-- End of Add button -->
 
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading"><b>Pending Requests</b></div>
 
                 <div class="panel-body">
 					<table class="table table-hover">

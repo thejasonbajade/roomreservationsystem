@@ -5,39 +5,6 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-1">
-				<div class="panel panel-default">
-					<div class="panel-heading"><b>Reservations</b></div>
-						<table class="table table-hover tablesorter" id="reservationsTable">
-							<thead>
-								<tr>
-									<th>Status</th>
-									<th>Date</th>
-									<th>Room</th>
-									<th>Start Time</th>
-									<th>End Time</th>
-									<th>Date Filed </th>
-								</tr>
-							</thead>
-							<tbody>
-							@foreach($reservations as $reservation)
-
-								<tr id="reservationID{{$reservation->id}}">
-									<td class="text-warning">{{ $reservation->status }}</td>
-									<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
-									<td>{{ $reservation->room->name }}</td>
-									<td>{{ date("h:i A", strtotime($reservation->start_time)) }}</td>
-									<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
-									<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
-									<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true" style="color: green; cursor: pointer;"></i></a>
-										<a id="cancelReservation" class="text-danger" data-id="{{$reservation->id}}" role="button" data-toggle="modal" data-target="#cancelReservationModal"><i class="fa fa-times" aria-hidden="true"></i></a>
-									</td>
-								</tr>
-							@endforeach
-							</tbody>
-						</table>
-				</div>
-			</div>
-		<div class="col-md-8 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading"><b>Reserve Rooms</b></div>
 
@@ -91,6 +58,40 @@
 			</div>
 		</div>
 
+		<div class="col-md-8 col-md-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading"><b>Reservations</b></div>
+					<table class="table table-hover tablesorter" id="reservationsTable">
+						<thead>
+						<tr>
+							<th>Status</th>
+							<th>Date</th>
+							<th>Room</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Date Filed </th>
+						</tr>
+						</thead>
+						<tbody>
+						@foreach($reservations as $reservation)
+
+							<tr id="reservationID{{$reservation->id}}">
+								<td class="text-warning">{{ $reservation->status }}</td>
+								<td>{{ date("M j, Y", strtotime($reservation->date)) }}</td>
+								<td>{{ $reservation->room->name }}</td>
+								<td>{{ date("h:i A", strtotime($reservation->start_time)) }}</td>
+								<td>{{ date("h:i A", strtotime($reservation->end_time)) }}</td>
+								<td>{{ $reservation->created_at->format('M d, Y h:i A') }}</td>
+								<td><a class="reservationEdit" class="text-warning" id="{{$reservation->id}}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true" style="color: green; cursor: pointer;"></i></a>
+									<a id="cancelReservation" class="text-danger" data-id="{{$reservation->id}}" role="button" data-toggle="modal" data-target="#cancelReservationModal"><i class="fa fa-times" aria-hidden="true"></i></a>
+								</td>
+							</tr>
+						@endforeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+
 
 		<div class="modal fade" id="cancelReservationModal" role="dialog">
 			<div class="modal-dialog" style="width:300px;height:50px;">
@@ -117,7 +118,7 @@
 					<div class="modal-body">
 						<label>Status:</label><p id="status"></p>
 						<label>Date:</label><p id="filedDate"></p>
-						<form role="form" method="GET" id="editURL">
+					<form role="form" action="{{url('/teacher/processEditReservation/'.$reservation->id)}}" method="GET" id="editURL">
 							{{ csrf_field() }}
 							<div>
 								<div>
@@ -131,7 +132,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-4">
 
 										<div class="form-group">
 											<label for="date">Date</label>
@@ -216,7 +217,7 @@
 					dataType: 'json',
 					success: function (data) {
 						console.log(data)
-						$("#editURL").attr('action', "{{url('/teacher/processditReservation')}}"+"/"+id);
+						$("#editURL").attr('action', "{{url('/teacher/processEditReservation')}}"+"/"+id);
 						$("#status").html(data.reservation.status);
 						$("#filedDate").html(new Date(data.reservation.created_at));
 						$("#roomID").val(data.reservation.room_id);
@@ -314,7 +315,12 @@
 				}
 			});
 
-			$('#cancelReservation	').click(function () {
+			$('#editURL').submit(function (e) {
+				if(isConflict == true) {
+					e.preventDefault();
+				}
+			});
+			$('#cancelReservation').click(function () {
 				$('.modal-body #cancelReservationURL').attr('number', $(this).data('id'));
 			});
 
@@ -329,6 +335,7 @@
 					}
 				})
 			});
+			
 			$("#reservationsTable").tablesorter({
 				headers: {
 					6: { sorter: false }
