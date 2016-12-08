@@ -99,9 +99,12 @@ class CollegeSecretaryController extends Controller
                         ->where('end_year', $ay[1])
                         ->where('semester', $sem)
                        ->update(['status' => 'Active']);
+        $newID = Semester::where('start_year', $ay[0])
+                        ->where('end_year', $ay[1])
+                        ->where('semester', $sem)->get()->first();
+        $prevID = $request->input('activeSem');
 
-        if($result==1){
-            $prevID = $request->input('activeSem');
+        if($result==1&&($newID->id!=$prevID)){
             Semester::where('id', $prevID)
                        ->update(['status' => 'Not Active']);
         }

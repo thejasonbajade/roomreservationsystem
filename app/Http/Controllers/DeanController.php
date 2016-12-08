@@ -38,7 +38,7 @@ class DeanController extends Controller
             return redirect('/home');
         }
 
-        $requests = Reservation::where('date', '!=', '1111-11-11' )->get();
+        $requests = Reservation::where('date', '!=', '1111-11-11' )->where('status','College Secretary Approved' )->get();
         $data['requests'] = $requests;
         if ($requests != "") {
             return view('dean_dashboard', $data);

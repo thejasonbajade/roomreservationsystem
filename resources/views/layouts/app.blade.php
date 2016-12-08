@@ -17,9 +17,10 @@
     <link href="{{asset('/css/style.css')}}" rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="{{asset('/js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('/js/jquery-latest.js')}}"></script>
     <script src="{{asset('/js/jquery.tablesorter.js')}}"></script>
     <script>
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('[name="_token"]').val()

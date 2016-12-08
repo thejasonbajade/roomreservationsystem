@@ -8,14 +8,15 @@
 				<!-- Add button -->
 				<div class="col-md-12" id="addBtn">
 					<button type="button" class="btn btn-default btn-lg" id="add-button" data-backdrop="static" data-toggle="modal" data-target="#addEmp"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add Teacher</button>
-
 				</div>
 				<a href="{{url('/collegeSecretary/add_regular_schedule')}}">Add Regular Sched</a>
 				<!-- End of Add button -->
 
                 <div class="panel-heading">Dashboard</div>
-                <div class="col-xs-3">
+                <div class="col-md-3">
                 <input type="hidden" value="{{$activeSem->id}}" id="activeSem"/>
+
+                <div class='col-xs-12'>
 				<select id="ayID" name="ayID" class="form-control" disabled >
 			
 					<option value="{{$activeSem->start_year}},{{$activeSem->end_year}}" {{$activeSem->start_year}} - {{$activeSem->end_year}}>				
@@ -23,7 +24,6 @@
 				
 					<option value="{{$activeSem->start_year+1}},{{$activeSem->end_year+1}}">				
 					{{$activeSem->start_year+1}} - {{$activeSem->end_year+1}}</option>
-
 
 				</select>
 
@@ -48,11 +48,13 @@
 					<button id="editButton" type="button" class="btn btn-default btn-md" >Edit</button>
 				</div>
 				<!-- End of Add button -->
+
+						</div>
 	            </div>
                 </div>
 
                 <div class="panel-body">
-					<table class="table table-hover">
+					<table class="table table-hover tablesorter" id="reserveTable">
 						<tbody><tr>
 							<th>Status</th>
 							<th><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp;Date</th>
@@ -246,6 +248,14 @@
 		if($('#teacherProfile')) {
 			$('#teacherProfile').modal('show');
 		}
+
+
+	  	// $("#reserveTable").tablesorter({ 
+    //     // pass the headers argument and assing a object 
+    //     headers: { 
+    //         // assign the secound column (we start counting zero) 
+    //         } 
+    //       }); 
 
 		$('[id^=decline_button]').click(function(){
 			var id = this.value;
