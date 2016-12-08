@@ -32,7 +32,7 @@
 						</tr>
 	  					@foreach ($requests as $request)
 						<tr>
-							<td class="text-warning">{{$request->status}}</td>
+							<td class="text-warning" id="{{ 'status'.$request->id }}">{{$request->status}}</td>
 							<td>{{$request->date}}</td>
 							<td>{{$request->room_id}}</td>
 							<td>{{$request->start_time}}</td>
@@ -96,20 +96,24 @@
 	$(document).ready(function() {
 
 		$('[id^=decline_button]').click(function(){   
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/dean/set_declined/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
 		});
 
 		$('[id^=approve_button]').click(function(){   
+			var id = this.value;
             $.ajax({
                   url: "{{url('/')}}/dean/set_approved/"+this.value, 
                   success: function(result){
                       console.log(result);
+                 	  $("#status"+id).text($.parseJSON(result));
                   }
               });
 		 	console.log(this.value);
