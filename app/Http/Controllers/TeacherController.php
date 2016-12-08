@@ -48,6 +48,7 @@ class TeacherController extends Controller
         $reservation->delete();
         return response()->json(['status' => 'Success']);
 //        return redirect('/home');
+
     }
 
     public function editReservation($reservationID) {
