@@ -47,7 +47,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}"  style="color: #fff;">
+                    <a class="navbar-brand" href="{{ url('/home') }}"  style="color: #fff;">
                         CAS - Room Reservation
                     </a>
                 </div>

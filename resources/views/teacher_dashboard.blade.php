@@ -4,12 +4,12 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-1">
+		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading"><b>Reserve Rooms</b></div>
 
 				<div class="panel-body">
-				<button class="btn btn-xs btn-primary" id="addRoom" style="margin-left: 4%;">Add Room</button>
+				<button class="btn btn-s btn-primary" id="addRoom" style="margin-left: 4%;">Add Room</button><br/>
 					<form role="form" action="{{url('/teacher/reserveRoom')}}" method="GET" id="submitReservation">
 						{{ csrf_field() }}
 						<div id="reservationDiv">
@@ -24,7 +24,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 
 									<div class="form-group">
 										<label for="date">Date</label>
@@ -51,14 +51,14 @@
 							</div>
 						</div>
 						<div class="col-md-3 col-md-offset-9">
-							<input type="submit" name="submit" class="btn btn-block btn-primary" style="margin-top:25px;" value="Add"/>
+							<input type="submit" name="submit" class="btn btn-block btn-primary" style="margin-top:25px;" value="Reserve Room"/>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-md-8 col-md-offset-1">
+		<div class="col-md-10 col-md-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading"><b>Reservations</b></div>
 					<table class="table table-hover tablesorter" id="reservationsTable">
@@ -118,7 +118,7 @@
 					<div class="modal-body">
 						<label>Status:</label><p id="status"></p>
 						<label>Date:</label><p id="filedDate"></p>
-					<form role="form" action="{{url('/teacher/processEditReservation/'.$reservation->id)}}" method="GET" id="editURL">
+					<form role="form" action="" method="GET" id="editURL">
 							{{ csrf_field() }}
 							<div>
 								<div>
@@ -296,7 +296,7 @@
 						"</div>" +
 						"<div class='col-md-1'>" +
 						"<p id='status" + reservationCount + "' class='text-success'></p>" +
-						"<a href='#' class='remove text-danger'><b>x</b></a>" +
+						"<a href='#' class='remove text-danger' title='Delete'><i class='fa fa-times' aria-hidden='true'></i></a>" +
 						"</div>" +
 						"</div>"
 				)
