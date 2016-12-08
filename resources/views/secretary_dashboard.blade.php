@@ -33,7 +33,7 @@
 										
 											<option value="Second Semester"@if($activeSem->semester=='Second Semester') {{'selected'}} @endif>Second Semester</option>
 										
-											<option value="Summer">Summer</option>
+										<!-- 	<option value="Summer">Summer</option>
 										
 											<option value="First Trimester">First Trimester</option>
 										
@@ -41,7 +41,7 @@
 										
 											<option value="Third Trimester">Third Trimester</option>
 										
-											<option value="Midyear">Midyear</option>
+											<option value="Midyear">Midyear</option> -->
 									</select>
 				<!-- Add button -->
 				<div class="col-md-12">
